@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/id_scanIcon"
+        android:icon="@drawable/scan_icon"
+        android:title="Scan"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/id_deleteList"
+        android:title="Delete List">
+    </item>
+</menu>
