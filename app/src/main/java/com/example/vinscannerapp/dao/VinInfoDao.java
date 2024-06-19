@@ -1,5 +1,6 @@
 package com.example.vinscannerapp.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -23,6 +24,6 @@ public interface VinInfoDao {
     void update(VinInfo vinInfo);
 
     @Query("SELECT * FROM vin_info WHERE listId = :listId")
-    List<VinInfo> getVinInfoForList(int listId);
+    LiveData<List<VinInfo>> getVinInfoForList(int listId);
 
 }

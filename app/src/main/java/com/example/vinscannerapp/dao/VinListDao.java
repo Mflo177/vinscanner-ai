@@ -1,5 +1,6 @@
 package com.example.vinscannerapp.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -23,5 +24,5 @@ public interface VinListDao {
         void update(VinList vinList);
 
         @Query("SELECT * FROM vin_lists")
-        List<VinList> getAllVinLists();
+        LiveData<List<VinList>> getAllVinLists();
 }
