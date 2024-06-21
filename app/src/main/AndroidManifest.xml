@@ -18,6 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VinScannerApp"
         tools:targetApi="31">
+
         <activity
             android:name=".ui.MainActivity"
             android:exported="true">
@@ -26,6 +27,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- VinListActivity -->
+        <activity android:name=".ui.VinListActivity" />
+
     </application>
 
 </manifest>

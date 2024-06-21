@@ -1,6 +1,7 @@
 package com.example.vinscannerapp.repository;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -16,6 +17,7 @@ import java.util.concurrent.Executors;
 
 public class VinRepository {
 
+    private static final String TAG = "VinRepository";
     private VinListDao vinListDao;
     private VinInfoDao vinInfoDao;
     private static ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(4);
@@ -29,20 +31,30 @@ public class VinRepository {
     // Wrapper methods for database operations
     public void insertVinList(VinList vinList) {
         databaseWriteExecutor.execute(() -> {
-            vinListDao.insert(vinList);
+            try {
+                vinListDao.insert(vinList);
+            } catch (Exception e) {
+                Log.e(TAG, "Error inserting VIN list", e);
+            }
         });
     }
 
     public void deleteVinList(VinList vinList) {
         databaseWriteExecutor.execute(() -> {
-            vinListDao.delete(vinList);
-        });
+            try {
+                vinListDao.delete(vinList);
+            } catch (Exception e) {
+                Log.e(TAG, "Error deleting VIN list", e);
+            }        });
     }
 
     public void updateVinList(VinList vinList) {
         databaseWriteExecutor.execute(() -> {
-            vinListDao.update(vinList);
-        });
+            try {
+                vinListDao.update(vinList);
+            } catch (Exception e) {
+                Log.e(TAG, "Error updating VIN list", e);
+            }        });
     }
 
     public LiveData<List<VinList>> getAllVinLists() {
@@ -51,19 +63,29 @@ public class VinRepository {
 
     public void insertVinInfo(VinInfo vinInfo) {
         databaseWriteExecutor.execute(() -> {
-            vinInfoDao.insert(vinInfo);
-        });
+            try {
+                vinInfoDao.insert(vinInfo);
+            } catch (Exception e) {
+                Log.e(TAG, "Error inserting VIN info", e);
+            }        });
     }
 
     public void deleteVinInfo(VinInfo vinInfo) {
         databaseWriteExecutor.execute(() -> {
-            vinInfoDao.delete(vinInfo);
-        });
+            try {
+                vinInfoDao.delete(vinInfo);
+            } catch (Exception e) {
+                Log.e(TAG, "Error deleting VIN info", e);
+            }        });
     }
 
     public void updateVinInfo(VinInfo vinInfo) {
         databaseWriteExecutor.execute(() -> {
-            vinInfoDao.update(vinInfo);
+            try {
+                vinInfoDao.update(vinInfo);
+            } catch (Exception e) {
+                Log.e(TAG, "Error updating VIN info", e);
+            }
         });
     }
 

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vinscannerapp.R;
@@ -17,16 +18,18 @@ import java.util.List;
 
 public class VinListActivity extends AppCompatActivity {
 
+    private RecyclerView recyclerView;
     private VinViewModel vinViewModel;
     private VinInfoAdapter adapter;
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
+        setContentView(R.layout.activity_vin_list); // Set the correct layout file here
 
-        RecyclerView recyclerView = findViewById(R.id.id_recycler_view);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        recyclerView.setHasFixedSize(true);
+
+        recyclerView = findViewById(R.id.id_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         adapter = new VinInfoAdapter();
         recyclerView.setAdapter(adapter);
