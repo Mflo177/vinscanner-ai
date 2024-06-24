@@ -31,6 +31,8 @@
         <!-- VinListActivity -->
         <activity android:name=".ui.VinListActivity" />
 
+        <activity android:name=".ui.SavedListsActivity" android:exported="true" />
+
     </application>
 
 </manifest>

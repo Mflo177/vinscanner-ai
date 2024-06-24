@@ -41,11 +41,8 @@ public class MainActivity extends AppCompatActivity {
         savedListsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle "View Saved Lists" action
-                // For now, show a message or navigate to another activity
-                // Intent intent = new Intent(MainActivity.this, SavedListsActivity.class);
-                // startActivity(intent);
-                // Placeholder for future implementation
+                Intent intent = new Intent(MainActivity.this, SavedListsActivity.class);
+                startActivity(intent);
             }
         });
     }
