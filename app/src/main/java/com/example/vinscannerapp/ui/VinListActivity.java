@@ -1,5 +1,6 @@
 package com.example.vinscannerapp.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +35,13 @@ public class VinListActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.id_toolbar);
         setSupportActionBar(toolbar);
+
+        // Retrieve list name from Intent and set as toolbar title
+        Intent intent = getIntent();
+        String listName = intent.getStringExtra("listName");
+        if (listName != null) {
+            getSupportActionBar().setTitle(listName);
+        }
 
         recyclerView = findViewById(R.id.id_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

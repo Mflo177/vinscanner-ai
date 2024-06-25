@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
                             VinList latestList = vinLists.get(vinLists.size() - 1);
                             Intent intent = new Intent(MainActivity.this, VinListActivity.class);
                             intent.putExtra("listId", latestList.getId());
+                            intent.putExtra("listName", latestList.getName()); // Pass the list name
                             startActivity(intent);
                         }
                     });

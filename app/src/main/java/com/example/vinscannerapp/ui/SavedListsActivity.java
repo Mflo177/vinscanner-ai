@@ -40,6 +40,7 @@ public class SavedListsActivity extends AppCompatActivity {
             public void onItemClick(View view, VinList vinList) {
                 Intent intent = new Intent(SavedListsActivity.this, VinListActivity.class);
                 intent.putExtra("listId", vinList.getId());
+                intent.putExtra("listName", vinList.getName());
                 startActivity(intent);
             }
         });
