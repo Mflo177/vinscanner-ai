@@ -25,4 +25,7 @@ public interface VinListDao {
 
         @Query("SELECT * FROM vin_lists")
         LiveData<List<VinList>> getAllVinLists();
+
+        @Query("SELECT * FROM vin_lists WHERE id = :id LIMIT 1")
+        LiveData<VinList> getVinList(int id);
 }

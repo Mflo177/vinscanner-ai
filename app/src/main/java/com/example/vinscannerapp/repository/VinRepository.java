@@ -61,6 +61,11 @@ public class VinRepository {
         return vinListDao.getAllVinLists();
     }
 
+    public LiveData<VinList> getVinList(int id) {
+        return vinListDao.getVinList(id);
+    }
+
+
     public void insertVinInfo(VinInfo vinInfo) {
         databaseWriteExecutor.execute(() -> {
             try {

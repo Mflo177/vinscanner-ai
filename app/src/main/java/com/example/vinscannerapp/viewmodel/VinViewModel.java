@@ -75,4 +75,8 @@ public class VinViewModel extends AndroidViewModel {
         return repository.getVinInfoForList(listId);
     }
 
+    public  LiveData<VinList> getVinList(int id) {
+        return repository.getVinList(id);
+    }
+
 }
