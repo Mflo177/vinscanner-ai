@@ -29,6 +29,11 @@ public class VinInfo {
         this.model = model;
     }
 
+    public VinInfo(String vinNumber, int listId) {
+        this.vinNumber = vinNumber;
+        this.listId = listId;
+    }
+
     public int getId() {
         return id;
     }

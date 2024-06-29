@@ -1,5 +1,6 @@
 package com.example.vinscannerapp.ui;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,6 +11,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,6 +31,9 @@ import com.example.vinscannerapp.viewmodel.VinViewModel;
 import java.util.List;
 
 public class VinListActivity extends AppCompatActivity {
+
+    private static final int REQUEST_CODE_SCAN = 1;
+
 
     private RecyclerView recyclerView;
     private VinViewModel vinViewModel;
@@ -59,20 +65,13 @@ public class VinListActivity extends AppCompatActivity {
 
         vinViewModel = new ViewModelProvider(this).get(VinViewModel.class);
 
-        vinViewModel.getVinInfoForList(listId).observe(this, new Observer<List<VinInfo>>() {
-            @Override
-            public void onChanged(List<VinInfo> vinInfos) {
-                adapter.setVinInfos(vinInfos);
-            }
-        });
+        vinViewModel.getVinInfoForList(listId).observe(this, vinInfos -> adapter.setVinInfos(vinInfos));
 
-        vinViewModel.getVinList(listId).observe(this, new Observer<VinList>() {
-            @Override
-            public void onChanged(VinList vinList) {
-                currentVinList = vinList;
-                if(vinList != null) {
-                    getSupportActionBar().setTitle(vinList.getName());
-                }
+
+        vinViewModel.getVinList(listId).observe(this, vinList -> {
+            currentVinList = vinList;
+            if(vinList != null) {
+                getSupportActionBar().setTitle(vinList.getName());
             }
         });
 
@@ -91,8 +90,9 @@ public class VinListActivity extends AppCompatActivity {
 
         if (id == R.id.id_scanIcon) {
             // Handle scan icon click
-            Toast.makeText(this, "Scan Icon Clicked", Toast.LENGTH_SHORT).show();
-            return true;
+            Intent intent = new Intent(this, CameraActivity.class);
+            intent.putExtra("listId", currentVinList.getId());
+            startActivityForResult(intent, REQUEST_CODE_SCAN);            return true;
         } else if (id == R.id.id_edit_listName) {
             showEditListNameDialog();
         }
@@ -103,6 +103,22 @@ public class VinListActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_SCAN && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                String vinCode = data.getStringExtra("VIN_CODE");
+                if (vinCode != null) {
+                    // Add the VIN code to the list
+                    VinInfo vinInfo = new VinInfo(vinCode, currentVinList.getId());
+                    vinViewModel.insertVinInfo(vinInfo);
+                }
+            }
+        }
+    }
+
 
     private void showEditListNameDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
