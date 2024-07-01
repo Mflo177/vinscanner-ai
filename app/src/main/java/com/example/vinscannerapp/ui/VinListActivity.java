@@ -101,7 +101,7 @@ public class VinListActivity extends AppCompatActivity {
         }
         else if (id == R.id.id_deleteList) {
             // Handle delete list click
-            Toast.makeText(this, "Delete List Clicked", Toast.LENGTH_SHORT).show();
+            showDeleteConfirmationDialog();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -164,6 +164,32 @@ public class VinListActivity extends AppCompatActivity {
 
         builder.show();
 
+    }
+
+    private void showDeleteConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Delete List");
+        builder.setMessage("Are you sure you want to delete this list?");
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (currentVinList != null) {
+                    vinViewModel.deleteVinList(currentVinList);
+                    Toast.makeText(VinListActivity.this, "List deleted", Toast.LENGTH_SHORT).show();
+                    finish(); // Close the activity after deletion
+                }
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
 }
