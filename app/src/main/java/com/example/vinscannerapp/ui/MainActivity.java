@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                             Intent intent = new Intent(MainActivity.this, VinListActivity.class);
                             intent.putExtra("listId", latestList.getId());
                             intent.putExtra("listName", latestList.getName()); // Pass the list name
+                            intent.putExtra("isNewList", true); // Pass the isNewList flag
                             startActivity(intent);
                         }
                     });

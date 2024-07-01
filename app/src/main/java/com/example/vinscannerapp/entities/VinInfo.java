@@ -1,7 +1,10 @@
 package com.example.vinscannerapp.entities;
 
+import androidx.annotation.Nullable;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "vin_info",
@@ -21,7 +24,8 @@ public class VinInfo {
 
 
     // Constructors, getters and setters
-    public VinInfo(String vinNumber, int listId, String year, String make, String model) {
+    public VinInfo(int id, String vinNumber, int listId,@Nullable String year,@Nullable String make,@Nullable String model) {
+        this.id = id;
         this.vinNumber = vinNumber;
         this.listId = listId;
         this.year = year;
@@ -29,6 +33,7 @@ public class VinInfo {
         this.model = model;
     }
 
+    @Ignore
     public VinInfo(String vinNumber, int listId) {
         this.vinNumber = vinNumber;
         this.listId = listId;
@@ -62,7 +67,7 @@ public class VinInfo {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(@Nullable String year) {
         this.year = year;
     }
 
@@ -70,7 +75,7 @@ public class VinInfo {
         return make;
     }
 
-    public void setMake(String make) {
+    public void setMake(@Nullable String make) {
         this.make = make;
     }
 
@@ -78,7 +83,7 @@ public class VinInfo {
         return model;
     }
 
-    public void setModel(String model) {
+    public void setModel(@Nullable String model) {
         this.model = model;
     }
 }

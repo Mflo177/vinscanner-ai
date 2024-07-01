@@ -39,6 +39,7 @@ public class VinListActivity extends AppCompatActivity {
     private VinViewModel vinViewModel;
     private VinInfoAdapter adapter;
     private VinList currentVinList;
+    private boolean isNewList;
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {
@@ -52,6 +53,7 @@ public class VinListActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String listName = intent.getStringExtra("listName");
         int listId = intent.getIntExtra("listId", -1);
+        isNewList = intent.getBooleanExtra("isNewList", false);
 
         if (listName != null) {
             getSupportActionBar().setTitle(listName);
@@ -90,9 +92,10 @@ public class VinListActivity extends AppCompatActivity {
 
         if (id == R.id.id_scanIcon) {
             // Handle scan icon click
-            Intent intent = new Intent(this, CameraActivity.class);
+            Intent intent = new Intent(VinListActivity.this, CameraActivity.class);
             intent.putExtra("listId", currentVinList.getId());
-            startActivityForResult(intent, REQUEST_CODE_SCAN);            return true;
+            startActivityForResult(intent, REQUEST_CODE_SCAN);
+            return true;
         } else if (id == R.id.id_edit_listName) {
             showEditListNameDialog();
         }
@@ -119,6 +122,20 @@ public class VinListActivity extends AppCompatActivity {
         }
     }
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent;
+        if (isNewList) {
+            intent = new Intent(VinListActivity.this, MainActivity.class);
+        } else {
+            intent = new Intent(VinListActivity.this, SavedListsActivity.class);
+        }
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
 
     private void showEditListNameDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
