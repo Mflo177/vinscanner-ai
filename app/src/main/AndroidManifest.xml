@@ -33,6 +33,8 @@
 
         <activity android:name=".ui.SavedListsActivity" android:exported="true" />
 
+        <activity android:name=".ui.CameraActivity"></activity>
+
     </application>
 
 </manifest>
