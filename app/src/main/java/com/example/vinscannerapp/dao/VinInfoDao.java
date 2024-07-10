@@ -26,4 +26,10 @@ public interface VinInfoDao {
     @Query("SELECT * FROM vin_info WHERE listId = :listId")
     LiveData<List<VinInfo>> getVinInfoForList(int listId);
 
+    @Query("UPDATE vin_lists SET vinCount = vinCount + 1 WHERE id = :listId")
+    void incrementVinCount(int listId);
+
+    @Query("UPDATE vin_lists SET vinCount = vinCount - 1 WHERE id = :listId")
+    void decrementVinCount(int listId);
+
 }

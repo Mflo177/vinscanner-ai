@@ -32,7 +32,7 @@ public class VinInfoAdapter extends RecyclerView.Adapter<VinInfoAdapter.VinInfoH
     @Override
     public void onBindViewHolder(@NonNull VinInfoHolder holder, int position) {
         VinInfo currentVinInfo = vinInfos.get(position);
-        holder.textViewId.setText(String.valueOf(currentVinInfo.getId()));
+        holder.textViewVinCount.setText(String.valueOf(position + 1));
         holder.textViewVinNumber.setText(currentVinInfo.getVinNumber());
 
     }
@@ -49,12 +49,12 @@ public class VinInfoAdapter extends RecyclerView.Adapter<VinInfoAdapter.VinInfoH
 
 
     class VinInfoHolder extends RecyclerView.ViewHolder {
-        private TextView textViewId;
+        private TextView textViewVinCount;
         private TextView textViewVinNumber;
 
         public VinInfoHolder(@NonNull View itemView) {
             super(itemView);
-            textViewId = itemView.findViewById(R.id.id_id);
+            textViewVinCount = itemView.findViewById(R.id.id_vin_count);
             textViewVinNumber = itemView.findViewById(R.id.id_vin_number);
         }
     }

@@ -11,7 +11,7 @@ import com.example.vinscannerapp.dao.VinListDao;
 import com.example.vinscannerapp.entities.VinInfo;
 import com.example.vinscannerapp.entities.VinList;
 
-@Database(entities = {VinList.class, VinInfo.class}, version = 1)
+@Database(entities = {VinList.class, VinInfo.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract VinListDao vinListDao();
@@ -25,6 +25,7 @@ public abstract class AppDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             AppDatabase.class, "vin_database")
+                            .fallbackToDestructiveMigration()
                             .build();
                 }
             }

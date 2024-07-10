@@ -70,6 +70,7 @@ public class VinRepository {
         databaseWriteExecutor.execute(() -> {
             try {
                 vinInfoDao.insert(vinInfo);
+                vinInfoDao.incrementVinCount(vinInfo.getListId());
             } catch (Exception e) {
                 Log.e(TAG, "Error inserting VIN info", e);
             }        });
@@ -79,6 +80,7 @@ public class VinRepository {
         databaseWriteExecutor.execute(() -> {
             try {
                 vinInfoDao.delete(vinInfo);
+                vinInfoDao.decrementVinCount(vinInfo.getListId());
             } catch (Exception e) {
                 Log.e(TAG, "Error deleting VIN info", e);
             }        });
