@@ -1,5 +1,6 @@
 package com.example.vinscannerapp.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,20 @@ import java.util.List;
 public class VinInfoAdapter extends RecyclerView.Adapter<VinInfoAdapter.VinInfoHolder> {
 
     private List<VinInfo> vinInfos = new ArrayList<>();
+    private Context context;
+    private OnItemDeleteListener onItemDeleteListener;
+
+    public VinInfoAdapter(Context context) {
+        this.context = context;
+    }
+
+    public interface OnItemDeleteListener {
+        void onItemDelete(VinInfo vinInfo);
+    }
+
+    public void setOnItemDeleteListener(OnItemDeleteListener listener) {
+        this.onItemDeleteListener = listener;
+    }
 
     @NonNull
     @Override
@@ -47,6 +62,23 @@ public class VinInfoAdapter extends RecyclerView.Adapter<VinInfoAdapter.VinInfoH
         notifyDataSetChanged();
     }
 
+    public List<VinInfo> getVinInfos() {
+        return vinInfos;
+    }
+
+    public void deleteVinInfo(int position) {
+        VinInfo vinInfo = vinInfos.get(position);
+        vinInfos.remove(position);
+        notifyItemRemoved(position);
+        if (onItemDeleteListener != null) {
+            onItemDeleteListener.onItemDelete(vinInfo);
+        }
+    }
+
+
+    public Context getContext() {
+        return context;
+    }
 
     class VinInfoHolder extends RecyclerView.ViewHolder {
         private TextView textViewVinCount;

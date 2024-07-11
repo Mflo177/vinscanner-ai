@@ -19,10 +19,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.vinscannerapp.R;
+import com.example.vinscannerapp.adapter.SwipeToDeleteCallback;
 import com.example.vinscannerapp.adapter.VinInfoAdapter;
 import com.example.vinscannerapp.entities.VinInfo;
 import com.example.vinscannerapp.entities.VinList;
@@ -35,7 +37,6 @@ public class VinListActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_SCAN = 1;
 
 
-    private RecyclerView recyclerView;
     private VinViewModel vinViewModel;
     private VinInfoAdapter adapter;
     private VinList currentVinList;
@@ -59,10 +60,10 @@ public class VinListActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(listName);
         }
 
-        recyclerView = findViewById(R.id.id_recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.id_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new VinInfoAdapter();
+        adapter = new VinInfoAdapter(this);
         recyclerView.setAdapter(adapter);
 
         vinViewModel = new ViewModelProvider(this).get(VinViewModel.class);
@@ -77,7 +78,12 @@ public class VinListActivity extends AppCompatActivity {
             }
         });
 
+        // Attach ItemTouchHelper
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter, vinViewModel));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
