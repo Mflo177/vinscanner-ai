@@ -5,10 +5,16 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -41,6 +47,7 @@ public class VinListActivity extends AppCompatActivity {
     private VinInfoAdapter adapter;
     private VinList currentVinList;
     private boolean isNewList;
+    private String listName;
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {
@@ -52,7 +59,7 @@ public class VinListActivity extends AppCompatActivity {
 
         // Retrieve list name from Intent and set as toolbar title
         Intent intent = getIntent();
-        String listName = intent.getStringExtra("listName");
+        listName = intent.getStringExtra("listName");
         int listId = intent.getIntExtra("listId", -1);
         isNewList = intent.getBooleanExtra("isNewList", false);
 
@@ -144,32 +151,66 @@ public class VinListActivity extends AppCompatActivity {
     }
 
     private void showEditListNameDialog() {
+        // Inflate the dialog layout
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View dialogView = inflater.inflate(R.layout.dialog_edit_list_name, null);
+
+        // Find the views in the inflated layout
+        EditText editText = dialogView.findViewById(R.id.id_edit_list_name);
+        Button cancelButton = dialogView.findViewById(R.id.id_btn_cancel);
+        Button saveButton = dialogView.findViewById(R.id.id_btn_save);
+
+        // Pre-display the current list name in the EditText
+        editText.setText(listName);
+        editText.setSelection(listName.length()); // Move cursor to end of text
+
+        // Disable save button initially
+        saveButton.setEnabled(false);
+
+        // Text change listener for EditText
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // No action needed
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Enable save button if text is modified
+                saveButton.setEnabled(!s.toString().trim().isEmpty() && !s.toString().equals(listName));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // No action needed
+            }
+        });
+
+        // Set up the dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Edit List Name");
+        builder.setView(dialogView)
+                .setTitle("Edit List Name")
+                .setCancelable(false);
 
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
+        AlertDialog dialog = builder.create();
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String newListName = input.getText().toString();
-                if (!newListName.isEmpty() && currentVinList != null) {
-                    currentVinList.setName(newListName);
-                    vinViewModel.updateVinList(currentVinList);
-                }
+        // Set the button actions
+        cancelButton.setOnClickListener(v -> dialog.dismiss());
+        saveButton.setOnClickListener(v -> {
+            String newListName = editText.getText().toString();
+
+            // Handle the list name update logic here
+            if (!newListName.equals(listName)) {
+                currentVinList.setName(newListName);
+                vinViewModel.updateVinList(currentVinList);
+                getSupportActionBar().setTitle(newListName);
             }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
+
+            dialog.dismiss();
         });
 
-        builder.show();
-
+        // Show the dialog
+        dialog.show();
     }
 
     private void showDeleteConfirmationDialog() {
