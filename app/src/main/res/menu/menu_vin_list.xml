@@ -14,6 +14,11 @@
         app:showAsAction="never">
     </item>
 
+    <item android:id="@+id/id_share_list"
+        android:title="Share List"
+        app:showAsAction="never">
+    </item>
+
     <item
         android:id="@+id/id_deleteList"
         android:title="Delete List"

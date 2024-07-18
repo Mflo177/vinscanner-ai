@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -22,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -36,6 +38,9 @@ import com.example.vinscannerapp.entities.VinInfo;
 import com.example.vinscannerapp.entities.VinList;
 import com.example.vinscannerapp.viewmodel.VinViewModel;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 public class VinListActivity extends AppCompatActivity {
@@ -88,9 +93,7 @@ public class VinListActivity extends AppCompatActivity {
         // Attach ItemTouchHelper
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter, vinViewModel));
         itemTouchHelper.attachToRecyclerView(recyclerView);
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -116,8 +119,50 @@ public class VinListActivity extends AppCompatActivity {
             // Handle delete list click
             showDeleteConfirmationDialog();
             return true;
+        } else if(id == R.id.id_share_list) {
+            shareList();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void shareList() {
+        // Get the list data
+        List<VinInfo> vinInfos = adapter.getVinInfos();
+
+        // Create a CSV file
+        File csvFile = createCSVFile(vinInfos);
+
+        // Share the CSV file
+        if(csvFile != null) {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/csv");
+            Uri uri = FileProvider.getUriForFile(this, "com.yourapp.fileprovider", csvFile);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+
+            // Set email subject
+            String emailSubject = listName + " VinList";
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, emailSubject);
+
+            startActivity(Intent.createChooser(shareIntent, "Share List"));
+        } else {
+            Toast.makeText(this, "Error creating CSV file", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private File createCSVFile(List<VinInfo> vinInfos) {
+        File csvFile = null;
+        try {
+            csvFile = new File(getExternalFilesDir(null), "VinList.csv");
+            FileWriter writer = new FileWriter(csvFile);
+            for (VinInfo vinInfo : vinInfos) {
+                writer.append(vinInfo.getVinNumber()).append("\n");
+            }
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return csvFile;
     }
 
     @Override
@@ -134,7 +179,6 @@ public class VinListActivity extends AppCompatActivity {
             }
         }
     }
-
 
     @Override
     public void onBackPressed() {
