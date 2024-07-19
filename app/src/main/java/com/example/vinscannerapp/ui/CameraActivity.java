@@ -1,19 +1,23 @@
 package com.example.vinscannerapp.ui;
-
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Intent;
+import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.Camera;
+import androidx.camera.core.CameraControl;
 import androidx.camera.core.CameraSelector;
+import androidx.camera.core.FocusMeteringAction;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
+import androidx.camera.core.MeteringPoint;
+import androidx.camera.core.MeteringPointFactory;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
@@ -38,6 +42,7 @@ import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class CameraActivity extends AppCompatActivity {
     private PreviewView previewView;
@@ -45,6 +50,7 @@ public class CameraActivity extends AppCompatActivity {
     private ExecutorService cameraExecutor;
     private int listId;
     private VinViewModel vinViewModel;
+    private CameraControl cameraControl;
 
 
     @Override
@@ -62,6 +68,16 @@ public class CameraActivity extends AppCompatActivity {
         captureButton.setOnClickListener(v -> capturePhoto());
 
         startCamera();
+
+        // Set touch listener for focus
+        previewView.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                focusOnTap(event.getX(), event.getY());
+            }
+            return true;
+        });
+
+        findViewById(R.id.captureButton).setOnClickListener(v -> capturePhoto());
     }
 
     private void startCamera() {
@@ -83,10 +99,29 @@ public class CameraActivity extends AppCompatActivity {
                 .build();
 
         imageCapture = new ImageCapture.Builder().build();
-
         preview.setSurfaceProvider(previewView.getSurfaceProvider());
 
-        cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture);
+        Camera camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture);
+        cameraControl = camera.getCameraControl(); // Initialize the CameraControl
+    }
+
+    private void focusOnTap(float x, float y) {
+        if (previewView.getMeteringPointFactory() == null || cameraControl == null) {
+            return;
+        }
+
+        // Convert touch coordinates to metering point
+        MeteringPointFactory factory = previewView.getMeteringPointFactory();
+        PointF point = new PointF(x, y);
+        MeteringPoint meteringPoint = factory.createPoint(point.x, point.y);
+
+        FocusMeteringAction focusMeteringAction = new FocusMeteringAction.Builder(meteringPoint)
+                .setAutoCancelDuration(2, TimeUnit.SECONDS)
+                .build();
+
+        cameraControl.startFocusAndMetering(focusMeteringAction)
+                .addListener(() -> {
+                }, ContextCompat.getMainExecutor(this));
     }
 
     private void capturePhoto() {
@@ -186,9 +221,5 @@ public class CameraActivity extends AppCompatActivity {
         super.onDestroy();
         cameraExecutor.shutdown();
     }
-
-
-
-
 
 }
