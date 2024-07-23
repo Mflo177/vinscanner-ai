@@ -1,10 +1,25 @@
 package com.example.vinscannerapp.ui;
+import static androidx.fragment.app.FragmentManager.TAG;
+
 import android.app.AlertDialog;
+import android.content.Context;
+import android.graphics.Color;
 import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,12 +36,14 @@ import androidx.camera.core.MeteringPointFactory;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.vinscannerapp.R;
 import com.example.vinscannerapp.entities.VinInfo;
 import com.example.vinscannerapp.viewmodel.VinViewModel;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
@@ -45,18 +62,24 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class CameraActivity extends AppCompatActivity {
+
+    private static final String TAG = "CameraActivity";
     private PreviewView previewView;
     private ImageCapture imageCapture;
     private ExecutorService cameraExecutor;
     private int listId;
     private VinViewModel vinViewModel;
     private CameraControl cameraControl;
+    private Vibrator vibrator;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+
+        // Initialize Vibrator
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
         previewView = findViewById(R.id.previewView);
         Button captureButton = findViewById(R.id.captureButton);
@@ -202,19 +225,66 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private void handleVinCode(String vinCode) {
-        // Pass the VIN code back to VinListActivity
-        VinInfo vinInfo = new VinInfo(vinCode, listId);
-        vinViewModel.insertVinInfo(vinInfo);
-        showConfirmationDialog(vinCode);
+        Log.d(TAG, "VIN detected: " + vinCode);
+
+        // Vibrate the device once when a VIN is detected
+        if (vibrator != null && vibrator.hasVibrator()) {
+            vibrator.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE));
+        }
+
+        // Show a dialog to get additional information before adding the VinInfo
+        showVinInfoDialog(vinCode);
     }
 
-    private void showConfirmationDialog(String vinCode) {
+    private void showVinInfoDialog(String vinCode) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("VIN Code Added");
-        builder.setMessage("The VIN code " + vinCode + " has been successfully added to the list.");
-        builder.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
-        builder.show();
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_add_vin_info, null);
+        builder.setView(dialogView);
+
+        TextView vinNumberTextView = dialogView.findViewById(R.id.id_vin_number);
+        Spinner lotLocationSpinner = dialogView.findViewById(R.id.id_lot_location_spinner);
+        EditText notesEditText = dialogView.findViewById(R.id.id_notes_edit_text);
+        Button addButton = dialogView.findViewById(R.id.id_add_button);
+        Button cancelButton = dialogView.findViewById(R.id.id_cancel_button);
+
+        // Set the VIN number
+        vinNumberTextView.setText(vinCode);
+
+        // Populate the spinner with lot locations
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.lot_locations, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        lotLocationSpinner.setAdapter(adapter);
+
+        AlertDialog dialog = builder.create();
+
+        dialog.setCancelable(false); // Make the dialog non-cancelable by clicking outside
+
+        addButton.setOnClickListener(v -> {
+            String lotLocation = lotLocationSpinner.getSelectedItem().toString();
+            String extraNotes = notesEditText.getText().toString();
+
+            VinInfo vinInfo = new VinInfo(vinCode, listId);
+            vinInfo.setLotLocation(lotLocation);
+            vinInfo.setExtraNotes(extraNotes);
+
+            vinViewModel.insertVinInfo(vinInfo);
+            dialog.dismiss();
+            showSuccessToast();
+        });
+        cancelButton.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
     }
+
+    private void showSuccessToast() {
+        Toast toast = Toast.makeText(this, "Successfully added VIN", Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 200); // Adjust vertical offset if needed
+        toast.show();
+    }
+
 
     @Override
     protected void onDestroy() {

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">VinScannerApp</string>
+
+    <string-array name="lot_locations">
+        <item>Lot A</item>
+        <item>Lot B</item>
+        <item>Lot C</item>
+        <!-- Add more lot locations as needed -->
+    </string-array>
 </resources>

@@ -20,7 +20,25 @@ public class VinInfo {
     private int id;
     private String vinNumber;
     private int listId;
+    private String lotLocation;
+    private String extraNotes;
 
+
+    public String getLotLocation() {
+        return lotLocation;
+    }
+
+    public void setLotLocation(String lotLocation) {
+        this.lotLocation = lotLocation;
+    }
+
+    public String getExtraNotes() {
+        return extraNotes;
+    }
+
+    public void setExtraNotes(String extraNotes) {
+        this.extraNotes = extraNotes;
+    }
 
     // Constructors, getters and setters
     public VinInfo(int id, String vinNumber, int listId) {
