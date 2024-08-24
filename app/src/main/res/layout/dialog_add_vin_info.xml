@@ -15,7 +15,7 @@
             android:id="@+id/id_vin_number_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="VIN Number:"
+            android:text="VIN: "
             android:textSize="18sp"
             android:layout_marginEnd="8dp"/>
 
