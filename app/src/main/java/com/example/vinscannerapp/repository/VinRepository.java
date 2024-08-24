@@ -99,4 +99,10 @@ public class VinRepository {
     public LiveData<List<VinInfo>> getVinInfoForList(int listId) {
         return vinInfoDao.getVinInfoForList(listId);
     }
+
+
+    // New method to get a single VinInfo by its ID
+    public LiveData<VinInfo> getVinInfoById(int id) {
+        return vinInfoDao.getVinInfoById(id);
+    }
 }

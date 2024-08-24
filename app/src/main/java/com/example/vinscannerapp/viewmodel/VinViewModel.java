@@ -17,6 +17,7 @@ public class VinViewModel extends AndroidViewModel {
     private static final String TAG = "VinViewModel";
     private VinRepository repository;
     private LiveData<List<VinList>> allVinLists;
+
     public VinViewModel(@NonNull Application application) {
         super(application);
         repository = new VinRepository(application);
@@ -79,4 +80,7 @@ public class VinViewModel extends AndroidViewModel {
         return repository.getVinList(id);
     }
 
+    public LiveData<VinInfo> getVinInfoById(int vinInfoId) {
+        return repository.getVinInfoById(vinInfoId);
+    }
 }

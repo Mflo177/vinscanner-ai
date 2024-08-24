@@ -52,6 +52,9 @@
 
         <activity android:name=".ui.CameraActivity"></activity>
 
+        <activity android:name=".ui.EditVinActivity"></activity>
+
+
     </application>
 
 </manifest>
