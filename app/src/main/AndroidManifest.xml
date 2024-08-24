@@ -28,6 +28,7 @@
 
         <activity
             android:name=".ui.MainActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,13 +47,20 @@
         </provider>
 
         <!-- VinListActivity -->
-        <activity android:name=".ui.VinListActivity" />
+        <activity
+            android:name=".ui.VinListActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".ui.SavedListsActivity" android:exported="true" />
+        <activity
+            android:name=".ui.SavedListsActivity"
+            android:screenOrientation="portrait"
+            android:exported="true" />
 
-        <activity android:name=".ui.CameraActivity"></activity>
+        <activity android:name=".ui.CameraActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".ui.EditVinActivity"></activity>
+        <activity android:name=".ui.EditVinActivity"
+            android:screenOrientation="portrait"/>
 
 
     </application>
