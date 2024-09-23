@@ -53,7 +53,12 @@ public class VinInfoAdapter extends RecyclerView.Adapter<VinInfoAdapter.VinInfoH
         holder.textViewVinNumber.setText(currentVinInfo.getVinNumber());
         holder.textViewLotLocation.setText(currentVinInfo.getRowLetter());
         holder.textViewExtraNotes.setText(currentVinInfo.getExtraNotes());
-    }
+        // Check if space number is 0, if so, display "-"
+        if (currentVinInfo.getSpaceNumber() == 0) {
+            holder.textViewSpaceNumber.setText("-");
+        } else {
+            holder.textViewSpaceNumber.setText(String.valueOf(currentVinInfo.getSpaceNumber()));
+        }    }
 
     @Override
     public int getItemCount() {
@@ -88,6 +93,7 @@ public class VinInfoAdapter extends RecyclerView.Adapter<VinInfoAdapter.VinInfoH
         private TextView textViewVinNumber;
         private TextView textViewLotLocation;
         private TextView textViewExtraNotes;
+        private TextView textViewSpaceNumber;
 
         public VinInfoHolder(@NonNull View itemView) {
             super(itemView);
@@ -95,6 +101,7 @@ public class VinInfoAdapter extends RecyclerView.Adapter<VinInfoAdapter.VinInfoH
             textViewVinNumber = itemView.findViewById(R.id.id_vin_number);
             textViewLotLocation = itemView.findViewById(R.id.id_lot_location);
             textViewExtraNotes = itemView.findViewById(R.id.id_extra_notes);
+            textViewSpaceNumber = itemView.findViewById(R.id.id_space_num);
 
             itemView.setOnClickListener(this); // Set click listener
         }

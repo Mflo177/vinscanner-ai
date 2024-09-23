@@ -278,7 +278,6 @@ public class CameraActivity extends AppCompatActivity {
         spaceNumberSpinner.setSelection(spacePosition);
 
         AlertDialog dialog = builder.create();
-
         dialog.setCancelable(false); // Make the dialog non-cancelable by clicking outside
 
         addButton.setOnClickListener(v -> {
