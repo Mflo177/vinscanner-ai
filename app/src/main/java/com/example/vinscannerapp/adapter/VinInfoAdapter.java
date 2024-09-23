@@ -53,6 +53,7 @@ public class VinInfoAdapter extends RecyclerView.Adapter<VinInfoAdapter.VinInfoH
         holder.textViewVinNumber.setText(currentVinInfo.getVinNumber());
         holder.textViewLotLocation.setText(currentVinInfo.getRowLetter());
         holder.textViewExtraNotes.setText(currentVinInfo.getExtraNotes());
+
         // Check if space number is 0, if so, display "-"
         if (currentVinInfo.getSpaceNumber() == 0) {
             holder.textViewSpaceNumber.setText("-");
