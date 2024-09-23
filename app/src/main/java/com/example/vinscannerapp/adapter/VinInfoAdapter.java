@@ -15,8 +15,6 @@ import com.example.vinscannerapp.R;
 import com.example.vinscannerapp.entities.VinInfo;
 import com.example.vinscannerapp.ui.EditVinActivity;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +51,7 @@ public class VinInfoAdapter extends RecyclerView.Adapter<VinInfoAdapter.VinInfoH
         VinInfo currentVinInfo = vinInfos.get(position);
         holder.textViewVinCount.setText(String.valueOf(position + 1));
         holder.textViewVinNumber.setText(currentVinInfo.getVinNumber());
-        holder.textViewLotLocation.setText(currentVinInfo.getLotLocation());
+        holder.textViewLotLocation.setText(currentVinInfo.getRowLetter());
         holder.textViewExtraNotes.setText(currentVinInfo.getExtraNotes());
     }
 

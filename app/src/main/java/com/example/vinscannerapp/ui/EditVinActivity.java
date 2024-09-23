@@ -58,7 +58,7 @@ public class EditVinActivity extends AppCompatActivity {
 
         // Populate the spinner with lot locations
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.lot_locations, android.R.layout.simple_spinner_item);
+                R.array.row_letter, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         lotLocationSpinner.setAdapter(adapter);
 
@@ -79,7 +79,7 @@ public class EditVinActivity extends AppCompatActivity {
                     // Prefill the fields with original VinInfo data
                     vinNumberTextView.setText(originalVinInfo.getVinNumber());
                     notesEditText.setText(originalVinInfo.getExtraNotes());
-                    setSpinnerSelection(originalVinInfo.getLotLocation());
+                    setSpinnerSelection(originalVinInfo.getRowLetter());
 
                     // Set listeners to detect changes
                     setFieldListeners();
@@ -112,7 +112,7 @@ public class EditVinActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedLotLocation = parent.getItemAtPosition(position).toString();
-                isLotLocationModified = !selectedLotLocation.equals(originalVinInfo.getLotLocation());
+                isLotLocationModified = !selectedLotLocation.equals(originalVinInfo.getRowLetter());
                 checkForModifications();
             }
 
@@ -149,7 +149,7 @@ public class EditVinActivity extends AppCompatActivity {
         if (originalVinInfo != null) {
             if (isLotLocationModified) {
                 String newLotLocation = lotLocationSpinner.getSelectedItem().toString();
-                originalVinInfo.setLotLocation(newLotLocation);
+                originalVinInfo.setRowLetter(newLotLocation);
             }
 
             if (isExtraNotesModified) {

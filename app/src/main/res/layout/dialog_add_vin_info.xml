@@ -3,13 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:gravity="center_horizontal">
 
+    <!-- VIN Display -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
 
         <TextView
             android:id="@+id/id_vin_number_text"
@@ -28,34 +31,63 @@
             android:textColor="@android:color/black" />
     </LinearLayout>
 
+    <!-- Row Letter Spinner -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:layout_marginTop="16dp">
+        android:layout_marginBottom="16dp">
 
         <TextView
-            android:id="@+id/id_lot_location_label"
+            android:id="@+id/id_row_letter_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lot Location:"
+            android:text="Row: "
             android:textSize="18sp"
             android:layout_marginEnd="8dp"/>
 
         <Spinner
-            android:id="@+id/id_lot_location_spinner"
-            android:layout_width="110dp"
+            android:id="@+id/id_row_letter_spinner"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:backgroundTint="#B0BEC5"
+            />
     </LinearLayout>
 
+    <!-- Space Number Spinner -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:layout_marginTop="16dp">
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:id="@+id/id_space_number_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Space #: "
+            android:textSize="18sp"
+            android:layout_marginEnd="8dp"/>
+
+        <Spinner
+            android:id="@+id/id_space_number_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#B0BEC5"
+            />
+    </LinearLayout>
+
+    <!-- Notes Field -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
 
         <TextView
             android:id="@+id/id_notes_label"
@@ -73,10 +105,10 @@
             android:hint="Enter notes here" />
     </LinearLayout>
 
+    <!-- Buttons (Add and Cancel) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:orientation="horizontal"
         android:gravity="center">
 

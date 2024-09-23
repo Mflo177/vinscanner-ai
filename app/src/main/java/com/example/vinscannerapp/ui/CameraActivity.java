@@ -1,9 +1,7 @@
 package com.example.vinscannerapp.ui;
-import static androidx.fragment.app.FragmentManager.TAG;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.PointF;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,7 +12,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +25,6 @@ import androidx.camera.core.Camera;
 import androidx.camera.core.CameraControl;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.FocusMeteringAction;
-import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.MeteringPoint;
@@ -36,14 +32,12 @@ import androidx.camera.core.MeteringPointFactory;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.vinscannerapp.R;
 import com.example.vinscannerapp.entities.VinInfo;
 import com.example.vinscannerapp.viewmodel.VinViewModel;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
@@ -56,6 +50,8 @@ import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -244,30 +240,60 @@ public class CameraActivity extends AppCompatActivity {
         builder.setView(dialogView);
 
         TextView vinNumberTextView = dialogView.findViewById(R.id.id_vin_number);
-        Spinner lotLocationSpinner = dialogView.findViewById(R.id.id_lot_location_spinner);
+        Spinner rowLetterSpinner = dialogView.findViewById(R.id.id_row_letter_spinner);
         EditText notesEditText = dialogView.findViewById(R.id.id_notes_edit_text);
         Button addButton = dialogView.findViewById(R.id.id_add_button);
         Button cancelButton = dialogView.findViewById(R.id.id_cancel_button);
+        Spinner spaceNumberSpinner = dialogView.findViewById(R.id.id_space_number_spinner);
 
         // Set the VIN number
         vinNumberTextView.setText(vinCode);
 
-        // Populate the spinner with lot locations
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.lot_locations, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        lotLocationSpinner.setAdapter(adapter);
+        // Set up the row location spinner
+        ArrayAdapter<CharSequence> rowAdapter = ArrayAdapter.createFromResource(this,
+                R.array.row_letter, android.R.layout.simple_spinner_item);
+        rowAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        rowLetterSpinner.setAdapter(rowAdapter);
+
+        // Set default selection for row letter
+        String defaultRowLetter = "-"; // Default or retrieved value
+        int rowPosition = rowAdapter.getPosition(defaultRowLetter);
+        if (rowPosition >= 0) {
+            rowLetterSpinner.setSelection(rowPosition);
+        }
+
+        // Set up the space number spinner
+        List<String> spaceNumbers = new ArrayList<>();
+        spaceNumbers.add("-"); // Add default item
+        for (int i = 1; i <= 50; i++) {
+            spaceNumbers.add(String.valueOf(i));
+        }
+        ArrayAdapter<String> spaceAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spaceNumbers);
+        spaceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spaceNumberSpinner.setAdapter(spaceAdapter);
+
+        // Set default selection for space number
+        String defaultSpaceNumber = "-"; // Default or retrieved value
+        int spacePosition = spaceAdapter.getPosition(defaultSpaceNumber);
+        spaceNumberSpinner.setSelection(spacePosition);
 
         AlertDialog dialog = builder.create();
 
         dialog.setCancelable(false); // Make the dialog non-cancelable by clicking outside
 
         addButton.setOnClickListener(v -> {
-            String lotLocation = lotLocationSpinner.getSelectedItem().toString();
+            String rowLetter = rowLetterSpinner.getSelectedItem().toString();
+            String spaceNumberString = spaceNumberSpinner.getSelectedItem().toString();
             String extraNotes = notesEditText.getText().toString();
 
+
+            // Convert spaceNumberString to int, handle default value
+            int spaceNumber = "-".equals(spaceNumberString) ? 0 : Integer.parseInt(spaceNumberString);
+
+
             VinInfo vinInfo = new VinInfo(vinCode, listId);
-            vinInfo.setLotLocation(lotLocation);
+            vinInfo.setRowLetter(rowLetter);
+            vinInfo.setSpaceNumber(spaceNumber);
             vinInfo.setExtraNotes(extraNotes);
 
             vinViewModel.insertVinInfo(vinInfo);

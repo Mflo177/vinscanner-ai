@@ -1,7 +1,5 @@
 package com.example.vinscannerapp.entities;
 
-import androidx.annotation.Nullable;
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
@@ -20,16 +18,25 @@ public class VinInfo {
     private int id;
     private String vinNumber;
     private int listId;
-    private String lotLocation;
+    private String rowLetter;
+    private int spaceNumber;
     private String extraNotes;
 
 
-    public String getLotLocation() {
-        return lotLocation;
+    public int getSpaceNumber() {
+        return spaceNumber;
     }
 
-    public void setLotLocation(String lotLocation) {
-        this.lotLocation = lotLocation;
+    public void setSpaceNumber(int spaceNumber) {
+        this.spaceNumber = spaceNumber;
+    }
+
+    public String getRowLetter() {
+        return rowLetter;
+    }
+
+    public void setRowLetter(String rowLetter) {
+        this.rowLetter = rowLetter;
     }
 
     public String getExtraNotes() {
