@@ -19,15 +19,15 @@ public class VinInfo {
     private String vinNumber;
     private int listId;
     private String rowLetter;
-    private int spaceNumber;
+    private Integer spaceNumber;
     private String extraNotes;
 
 
-    public int getSpaceNumber() {
+    public Integer getSpaceNumber() {
         return spaceNumber;
     }
 
-    public void setSpaceNumber(int spaceNumber) {
+    public void setSpaceNumber(Integer spaceNumber) {
         this.spaceNumber = spaceNumber;
     }
 

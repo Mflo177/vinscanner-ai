@@ -51,15 +51,20 @@ public class VinInfoAdapter extends RecyclerView.Adapter<VinInfoAdapter.VinInfoH
         VinInfo currentVinInfo = vinInfos.get(position);
         holder.textViewVinCount.setText(String.valueOf(position + 1));
         holder.textViewVinNumber.setText(currentVinInfo.getVinNumber());
-        holder.textViewLotLocation.setText(currentVinInfo.getRowLetter());
-        holder.textViewExtraNotes.setText(currentVinInfo.getExtraNotes());
 
-        // Check if space number is 0, if so, display "-"
-        if (currentVinInfo.getSpaceNumber() == 0) {
-            holder.textViewSpaceNumber.setText("-");
-        } else {
-            holder.textViewSpaceNumber.setText(String.valueOf(currentVinInfo.getSpaceNumber()));
-        }    }
+
+        // Set row letter, display "-" if it's null
+        String rowLetter = currentVinInfo.getRowLetter();
+        holder.textViewLotLocation.setText(rowLetter != null ? rowLetter : "-");
+
+        // Set space number, display "-" if it's null or 0
+        Integer spaceNumber = currentVinInfo.getSpaceNumber();
+        holder.textViewSpaceNumber.setText(spaceNumber != null && spaceNumber != 0 ? String.valueOf(spaceNumber) : "-");
+
+        // Set extra notes, display "-" if it's null or empty
+        String extraNotes = currentVinInfo.getExtraNotes();
+        holder.textViewExtraNotes.setText(extraNotes != null && !extraNotes.trim().isEmpty() ? extraNotes : "-");
+    }
 
     @Override
     public int getItemCount() {

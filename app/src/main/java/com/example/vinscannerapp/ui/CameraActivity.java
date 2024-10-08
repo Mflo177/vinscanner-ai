@@ -286,14 +286,19 @@ public class CameraActivity extends AppCompatActivity {
             String extraNotes = notesEditText.getText().toString();
 
 
-            // Convert spaceNumberString to int, handle default value
-            int spaceNumber = "-".equals(spaceNumberString) ? 0 : Integer.parseInt(spaceNumberString);
+            // Set rowLetter to null if "-" is selected
+            String finalRowLetter = "-".equals(rowLetter) ? null : rowLetter;
 
+            // Set spaceNumber to null if "-" is selected
+            Integer finalSpaceNumber = "-".equals(spaceNumberString) ? null : Integer.parseInt(spaceNumberString);
+
+            // Set extraNotes to null if it's blank
+            String finalExtraNotes = extraNotes.trim().isEmpty() ? null : extraNotes;
 
             VinInfo vinInfo = new VinInfo(vinCode, listId);
-            vinInfo.setRowLetter(rowLetter);
-            vinInfo.setSpaceNumber(spaceNumber);
-            vinInfo.setExtraNotes(extraNotes);
+            vinInfo.setRowLetter(finalRowLetter);
+            vinInfo.setSpaceNumber(finalSpaceNumber);
+            vinInfo.setExtraNotes(finalExtraNotes);
 
             vinViewModel.insertVinInfo(vinInfo);
             dialog.dismiss();

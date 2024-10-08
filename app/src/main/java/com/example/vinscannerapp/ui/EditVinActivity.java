@@ -132,7 +132,8 @@ import java.util.List;
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     String selectedLotLocation = parent.getItemAtPosition(position).toString();
-                    isLotLocationModified = !selectedLotLocation.equals(originalVinInfo.getRowLetter());
+                    String currentLotLocation = originalVinInfo.getRowLetter() == null ? "-" : originalVinInfo.getRowLetter();
+                    isLotLocationModified = !selectedLotLocation.equals(currentLotLocation);
                     checkForModifications();
                 }
 
@@ -144,7 +145,8 @@ import java.util.List;
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     String selectedSpaceNumber = parent.getItemAtPosition(position).toString();
-                    isSpaceNumberModified = !selectedSpaceNumber.equals(String.valueOf(originalVinInfo.getSpaceNumber()));
+                    String currentSpaceNumber = originalVinInfo.getSpaceNumber() == null ? "-" : String.valueOf(originalVinInfo.getSpaceNumber());
+                    isSpaceNumberModified = !selectedSpaceNumber.equals(currentSpaceNumber);
                     checkForModifications();
                 }
 
@@ -158,7 +160,8 @@ import java.util.List;
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    isExtraNotesModified = !s.toString().trim().equals(originalVinInfo.getExtraNotes().trim());
+                    String currentNotes = originalVinInfo.getExtraNotes() == null ? "" : originalVinInfo.getExtraNotes().trim();
+                    isExtraNotesModified = !s.toString().trim().equals(currentNotes);
                     checkForModifications();
                 }
 
@@ -173,21 +176,37 @@ import java.util.List;
 
         private void updateVinInfo() {
             if (originalVinInfo != null) {
+                // Update the rowLetter (lotLocation) only if modified
                 if (isLotLocationModified) {
                     String newLotLocation = lotLocationSpinner.getSelectedItem().toString();
-                    originalVinInfo.setRowLetter(newLotLocation);
+                    if (newLotLocation.equals("-")) {
+                        originalVinInfo.setRowLetter(null);
+                    } else {
+                        originalVinInfo.setRowLetter(newLotLocation);
+                    }
                 }
 
+                // Update the spaceNumber only if modified
                 if (isSpaceNumberModified) {
                     String newSpaceNumber = spaceNumberSpinner.getSelectedItem().toString();
-                    originalVinInfo.setSpaceNumber(Integer.parseInt(newSpaceNumber));
+                    if (newSpaceNumber.equals("-")) {
+                        originalVinInfo.setSpaceNumber(null);
+                    } else {
+                        originalVinInfo.setSpaceNumber(Integer.parseInt(newSpaceNumber));
+                    }
                 }
 
+                // Update the extraNotes only if modified
                 if (isExtraNotesModified) {
-                    String newExtraNotes = notesEditText.getText().toString();
-                    originalVinInfo.setExtraNotes(newExtraNotes);
+                    String newExtraNotes = notesEditText.getText().toString().trim();
+                    if (newExtraNotes.isEmpty()) {
+                        originalVinInfo.setExtraNotes(null);
+                    } else {
+                        originalVinInfo.setExtraNotes(newExtraNotes);
+                    }
                 }
 
+                // Save the changes through the ViewModel
                 vinViewModel.updateVinInfo(originalVinInfo);
                 Toast.makeText(this, "VIN info updated", Toast.LENGTH_SHORT).show();
                 finish();
