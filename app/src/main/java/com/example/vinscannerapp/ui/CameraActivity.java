@@ -290,7 +290,7 @@ public class CameraActivity extends AppCompatActivity {
             String finalRowLetter = "-".equals(rowLetter) ? null : rowLetter;
 
             // Set spaceNumber to null if "-" is selected
-            Integer finalSpaceNumber = "-".equals(spaceNumberString) ? null : Integer.parseInt(spaceNumberString);
+            String finalSpaceNumber = "-".equals(spaceNumberString) ? null : spaceNumberString;
 
             // Set extraNotes to null if it's blank
             String finalExtraNotes = extraNotes.trim().isEmpty() ? null : extraNotes;

@@ -179,31 +179,21 @@ import java.util.List;
                 // Update the rowLetter (lotLocation) only if modified
                 if (isLotLocationModified) {
                     String newLotLocation = lotLocationSpinner.getSelectedItem().toString();
-                    if (newLotLocation.equals("-")) {
-                        originalVinInfo.setRowLetter(null);
-                    } else {
-                        originalVinInfo.setRowLetter(newLotLocation);
-                    }
+                    originalVinInfo.setRowLetter(newLotLocation.equals("-") ? null : newLotLocation);
+
                 }
 
                 // Update the spaceNumber only if modified
                 if (isSpaceNumberModified) {
                     String newSpaceNumber = spaceNumberSpinner.getSelectedItem().toString();
-                    if (newSpaceNumber.equals("-")) {
-                        originalVinInfo.setSpaceNumber(null);
-                    } else {
-                        originalVinInfo.setSpaceNumber(Integer.parseInt(newSpaceNumber));
-                    }
+                    originalVinInfo.setSpaceNumber(newSpaceNumber.equals("-") ? null : newSpaceNumber);
                 }
 
                 // Update the extraNotes only if modified
                 if (isExtraNotesModified) {
                     String newExtraNotes = notesEditText.getText().toString().trim();
-                    if (newExtraNotes.isEmpty()) {
-                        originalVinInfo.setExtraNotes(null);
-                    } else {
-                        originalVinInfo.setExtraNotes(newExtraNotes);
-                    }
+                    originalVinInfo.setExtraNotes(newExtraNotes.isEmpty() ? null : newExtraNotes);
+
                 }
 
                 // Save the changes through the ViewModel
