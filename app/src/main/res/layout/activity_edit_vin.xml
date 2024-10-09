@@ -55,7 +55,7 @@
 
     <Spinner
         android:id="@+id/id_lot_location_spinner"
-        android:layout_width="110dp"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@+id/id_lot_location_label"
         app:layout_constraintStart_toEndOf="@+id/id_lot_location_label" />

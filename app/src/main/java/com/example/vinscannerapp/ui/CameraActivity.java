@@ -268,7 +268,9 @@ public class CameraActivity extends AppCompatActivity {
         for (int i = 1; i <= 50; i++) {
             spaceNumbers.add(String.valueOf(i));
         }
-        ArrayAdapter<String> spaceAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spaceNumbers);
+        // Set up the space number spinner using the string-array from resources
+        ArrayAdapter<CharSequence> spaceAdapter = ArrayAdapter.createFromResource(this,
+                R.array.space_numbers, android.R.layout.simple_spinner_item);
         spaceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spaceNumberSpinner.setAdapter(spaceAdapter);
 
@@ -284,7 +286,6 @@ public class CameraActivity extends AppCompatActivity {
             String rowLetter = rowLetterSpinner.getSelectedItem().toString();
             String spaceNumberString = spaceNumberSpinner.getSelectedItem().toString();
             String extraNotes = notesEditText.getText().toString();
-
 
             // Set rowLetter to null if "-" is selected
             String finalRowLetter = "-".equals(rowLetter) ? null : rowLetter;

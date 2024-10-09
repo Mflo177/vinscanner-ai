@@ -93,14 +93,9 @@ import java.util.List;
             lotLocationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             lotLocationSpinner.setAdapter(lotLocationAdapter);
 
-            // Populate the space number spinner
-            List<String> spaceNumbers = new ArrayList<>();
-            spaceNumbers.add("-"); // Default value
-            for (int i = 1; i <= 50; i++) {
-                spaceNumbers.add(String.valueOf(i));
-            }
-            ArrayAdapter<String> spaceNumberAdapter = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_item, spaceNumbers);
+            // Populate the space number spinner using the string-array from resources
+            ArrayAdapter<CharSequence> spaceNumberAdapter = ArrayAdapter.createFromResource(this,
+                    R.array.space_numbers, android.R.layout.simple_spinner_item);
             spaceNumberAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spaceNumberSpinner.setAdapter(spaceNumberAdapter);
         }
@@ -119,9 +114,9 @@ import java.util.List;
             }
 
             // Set space number spinner selection
-            ArrayAdapter<String> spaceNumberAdapter = (ArrayAdapter<String>) spaceNumberSpinner.getAdapter();
+            ArrayAdapter<CharSequence> spaceNumberAdapter = (ArrayAdapter<CharSequence>) spaceNumberSpinner.getAdapter();
             if (spaceNumberAdapter != null) {
-                int spaceNumberPosition = spaceNumberAdapter.getPosition(String.valueOf(originalVinInfo.getSpaceNumber()));
+                int spaceNumberPosition = spaceNumberAdapter.getPosition(originalVinInfo.getSpaceNumber());
                 if (spaceNumberPosition >= 0) {
                     spaceNumberSpinner.setSelection(spaceNumberPosition);
                 }
