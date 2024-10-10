@@ -140,7 +140,7 @@ public class VinListActivity extends AppCompatActivity {
             shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
             // Set email subject
-            String emailSubject = listName + " VinList";
+            String emailSubject = "VinList: " + listName;
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, emailSubject);
 
             startActivity(Intent.createChooser(shareIntent, "Share List"));
@@ -154,9 +154,34 @@ public class VinListActivity extends AppCompatActivity {
         try {
             csvFile = new File(getExternalFilesDir(null), "VinList.csv");
             FileWriter writer = new FileWriter(csvFile);
+
+            // Write the header row
+            writer.append("VIN Number,Location,Extra Notes\n");
+
+            // Write data rows
             for (VinInfo vinInfo : vinInfos) {
-                writer.append(vinInfo.getVinNumber()).append("\n");
+                String vinNumber = vinInfo.getVinNumber();
+                String extraNotes = vinInfo.getExtraNotes() != null ? vinInfo.getExtraNotes() : "";
+                String rowLetter = vinInfo.getRowLetter() != null ? vinInfo.getRowLetter() : "";
+                String spaceNumber = vinInfo.getSpaceNumber() != null ? vinInfo.getSpaceNumber() : "";
+
+                // Construct the location string
+                String location;
+                if (rowLetter != null && spaceNumber != null) {
+                    location = rowLetter + "-" + spaceNumber;
+                } else if (rowLetter != null) {
+                    location = rowLetter;
+                } else if (spaceNumber != null) {
+                    location = spaceNumber;
+                } else {
+                    location = ""; // or "N/A" if you prefer to show something when both are null
+                }
+
+                writer.append(vinNumber).append(",")
+                        .append(location).append(",")
+                        .append(extraNotes).append("\n");
             }
+
             writer.flush();
             writer.close();
         } catch (IOException e) {

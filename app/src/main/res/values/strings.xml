@@ -3,10 +3,10 @@
 
     <string-array name="row_letter">
         <item>-</item>
-        <item>Row V</item>
-        <item>Row Q</item>
-        <item>N Wall</item>
-        <item>S Wall</item>
+        <item>V</item>
+        <item>Q</item>
+        <item>N. Wall</item>
+        <item>S. Wall</item>
         <!-- Add more items as needed -->
     </string-array>
 
