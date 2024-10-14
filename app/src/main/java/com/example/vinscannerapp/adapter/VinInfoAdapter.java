@@ -63,7 +63,7 @@ public class VinInfoAdapter extends RecyclerView.Adapter<VinInfoAdapter.VinInfoH
 
         // Set extra notes, display "-" if it's null or empty
         String extraNotes = currentVinInfo.getExtraNotes();
-        holder.textViewExtraNotes.setText(extraNotes != null && !extraNotes.trim().isEmpty() ? extraNotes : "-");
+        holder.textViewExtraNotes.setText(extraNotes != null && !extraNotes.trim().isEmpty() ? extraNotes : "");
     }
 
     @Override

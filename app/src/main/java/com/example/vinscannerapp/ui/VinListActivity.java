@@ -38,7 +38,16 @@ import com.example.vinscannerapp.entities.VinInfo;
 import com.example.vinscannerapp.entities.VinList;
 import com.example.vinscannerapp.viewmodel.VinViewModel;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -130,13 +139,13 @@ public class VinListActivity extends AppCompatActivity {
         List<VinInfo> vinInfos = adapter.getVinInfos();
 
         // Create a CSV file
-        File csvFile = createCSVFile(vinInfos);
+        File excelFile = createExcelFile(vinInfos);
 
         // Share the CSV file
-        if(csvFile != null) {
+        if(excelFile != null) {
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.setType("text/csv");
-            Uri uri = FileProvider.getUriForFile(this, "com.yourapp.fileprovider", csvFile);
+            shareIntent.setType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            Uri uri = FileProvider.getUriForFile(this, "com.yourapp.fileprovider", excelFile);
             shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
             // Set email subject
@@ -145,49 +154,69 @@ public class VinListActivity extends AppCompatActivity {
 
             startActivity(Intent.createChooser(shareIntent, "Share List"));
         } else {
-            Toast.makeText(this, "Error creating CSV file", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error creating Excel file", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private File createCSVFile(List<VinInfo> vinInfos) {
-        File csvFile = null;
+    private File createExcelFile(List<VinInfo> vinInfos) {
+        File excelFile = null;
         try {
-            csvFile = new File(getExternalFilesDir(null), "VinList.csv");
-            FileWriter writer = new FileWriter(csvFile);
+            Workbook workbook = new XSSFWorkbook();
+            Sheet sheet = workbook.createSheet("Vin List");
 
-            // Write the header row
-            writer.append("VIN Number,Location,Extra Notes\n");
+            // Set column widths
+            sheet.setColumnWidth(0, 5000); // VIN Number column
+            sheet.setColumnWidth(1, 2000); // Location column
+            sheet.setColumnWidth(2, 7000); // Extra Notes column
+
+            // Create a bold font for the header row
+            Font headerFont = workbook.createFont();
+            headerFont.setBold(true);
+
+            // Create a cell style with the bold font
+            CellStyle headerCellStyle = workbook.createCellStyle();
+            headerCellStyle.setFont(headerFont);
+
+            // Create header row
+            Row headerRow = sheet.createRow(0);
+            Cell vinCell = headerRow.createCell(0);
+            vinCell.setCellValue("VIN");
+            vinCell.setCellStyle(headerCellStyle);
+
+            Cell locationCell = headerRow.createCell(1);
+            locationCell.setCellValue("Location");
+            locationCell.setCellStyle(headerCellStyle);
+
+            Cell notesCell = headerRow.createCell(2);
+            notesCell.setCellValue("Notes");
+            notesCell.setCellStyle(headerCellStyle);
 
             // Write data rows
+            int rowNum = 1;
             for (VinInfo vinInfo : vinInfos) {
-                String vinNumber = vinInfo.getVinNumber();
-                String extraNotes = vinInfo.getExtraNotes() != null ? vinInfo.getExtraNotes() : "";
+                Row row = sheet.createRow(rowNum++);
+                row.createCell(0).setCellValue(vinInfo.getVinNumber());
+
                 String rowLetter = vinInfo.getRowLetter() != null ? vinInfo.getRowLetter() : "";
                 String spaceNumber = vinInfo.getSpaceNumber() != null ? vinInfo.getSpaceNumber() : "";
+                String location = (rowLetter.isEmpty() && spaceNumber.isEmpty()) ? "" : (rowLetter + "-" + spaceNumber);
+                row.createCell(1).setCellValue(location);
 
-                // Construct the location string
-                String location;
-                if (rowLetter != null && spaceNumber != null) {
-                    location = rowLetter + "-" + spaceNumber;
-                } else if (rowLetter != null) {
-                    location = rowLetter;
-                } else if (spaceNumber != null) {
-                    location = spaceNumber;
-                } else {
-                    location = ""; // or "N/A" if you prefer to show something when both are null
-                }
-
-                writer.append(vinNumber).append(",")
-                        .append(location).append(",")
-                        .append(extraNotes).append("\n");
+                String extraNotes = vinInfo.getExtraNotes() != null ? vinInfo.getExtraNotes() : "";
+                row.createCell(2).setCellValue(extraNotes);
             }
 
-            writer.flush();
-            writer.close();
+            // Write the file to external storage
+            excelFile = new File(getExternalFilesDir(null), "VinList.xlsx");
+            FileOutputStream fileOut = new FileOutputStream(excelFile);
+            workbook.write(fileOut);
+            fileOut.close();
+            workbook.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return csvFile;
+        return excelFile;
     }
 
     @Override

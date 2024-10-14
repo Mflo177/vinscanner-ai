@@ -63,4 +63,8 @@ dependencies {
     annotationProcessor 'androidx.room:room-compiler:2.5.1'
 
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
+    // Excel File
+    implementation 'org.apache.poi:poi:5.2.3'
+    implementation 'org.apache.poi:poi-ooxml:5.2.3'
 }
