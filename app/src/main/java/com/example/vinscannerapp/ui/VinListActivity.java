@@ -322,7 +322,17 @@ public class VinListActivity extends AppCompatActivity {
                 if (currentVinList != null) {
                     vinViewModel.deleteVinList(currentVinList);
                     Toast.makeText(VinListActivity.this, "List deleted", Toast.LENGTH_SHORT).show();
-                    finish(); // Close the activity after deletion
+
+                    // Navigate back to the appropriate activity after deletion
+                    Intent intent;
+                    if (isNewList) {
+                        intent = new Intent(VinListActivity.this, MainActivity.class);
+                    } else {
+                        intent = new Intent(VinListActivity.this, SavedListsActivity.class);
+                    }
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
                 }
             }
         });
