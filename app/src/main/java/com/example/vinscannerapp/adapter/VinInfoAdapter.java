@@ -59,7 +59,7 @@ public class VinInfoAdapter extends RecyclerView.Adapter<VinInfoAdapter.VinInfoH
 
         // Set space number, display "-" if it's null or 0
         String spaceNumber = currentVinInfo.getSpaceNumber();
-        holder.textViewSpaceNumber.setText(spaceNumber != null && !spaceNumber.equals("-") ? spaceNumber : "-");
+        holder.textViewSpaceNumber.setText(spaceNumber != null && !spaceNumber.equals("-") ? "#" + spaceNumber : "-");
 
         // Set extra notes, display "-" if it's null or empty
         String extraNotes = currentVinInfo.getExtraNotes();

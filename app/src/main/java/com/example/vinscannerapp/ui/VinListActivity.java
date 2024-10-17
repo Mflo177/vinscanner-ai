@@ -204,7 +204,18 @@ public class VinListActivity extends AppCompatActivity {
 
                 String rowLetter = vinInfo.getRowLetter() != null ? vinInfo.getRowLetter() : "";
                 String spaceNumber = vinInfo.getSpaceNumber() != null ? vinInfo.getSpaceNumber() : "";
-                String location = (rowLetter.isEmpty() && spaceNumber.isEmpty()) ? "" : (rowLetter + "-" + spaceNumber);
+                String location;
+
+                if (!rowLetter.isEmpty() && !spaceNumber.isEmpty()) {
+                    location = rowLetter + "-" + spaceNumber;
+                } else if (!rowLetter.isEmpty()) {
+                    location = rowLetter;
+                } else if (!spaceNumber.isEmpty()) {
+                    location = spaceNumber;
+                } else {
+                    location = "";
+                }
+
                 row.createCell(1).setCellValue(location);
 
                 String extraNotes = vinInfo.getExtraNotes() != null ? vinInfo.getExtraNotes() : "";
