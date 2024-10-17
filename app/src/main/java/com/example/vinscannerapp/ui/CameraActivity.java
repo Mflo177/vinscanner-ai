@@ -68,6 +68,8 @@ public class CameraActivity extends AppCompatActivity {
     private CameraControl cameraControl;
     private Vibrator vibrator;
 
+    private boolean isDialogShown = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -223,16 +225,20 @@ public class CameraActivity extends AppCompatActivity {
     private void handleVinCode(String vinCode) {
         Log.d(TAG, "VIN detected: " + vinCode);
 
-        // Vibrate the device once when a VIN is detected
-        if (vibrator != null && vibrator.hasVibrator()) {
-            vibrator.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE));
-        }
-
         // Show a dialog to get additional information before adding the VinInfo
         showVinInfoDialog(vinCode);
     }
 
     private void showVinInfoDialog(String vinCode) {
+        if (isDialogShown) return; // If a dialog is already shown, do nothing
+
+        isDialogShown = true; // Set the flag to true when the dialog is about to be shown
+
+        // Vibrate the device once when a VIN is detected
+        if (vibrator != null && vibrator.hasVibrator()) {
+            vibrator.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE));
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         LayoutInflater inflater = this.getLayoutInflater();
@@ -262,12 +268,6 @@ public class CameraActivity extends AppCompatActivity {
             rowLetterSpinner.setSelection(rowPosition);
         }
 
-        // Set up the space number spinner
-        List<String> spaceNumbers = new ArrayList<>();
-        spaceNumbers.add("-"); // Add default item
-        for (int i = 1; i <= 50; i++) {
-            spaceNumbers.add(String.valueOf(i));
-        }
         // Set up the space number spinner using the string-array from resources
         ArrayAdapter<CharSequence> spaceAdapter = ArrayAdapter.createFromResource(this,
                 R.array.space_numbers, android.R.layout.simple_spinner_item);
@@ -304,8 +304,14 @@ public class CameraActivity extends AppCompatActivity {
             vinViewModel.insertVinInfo(vinInfo);
             dialog.dismiss();
             showSuccessToast();
+            isDialogShown = false; // Reset the flag when the dialog is dismissed
         });
-        cancelButton.setOnClickListener(v -> dialog.dismiss());
+        cancelButton.setOnClickListener(v -> {
+            dialog.dismiss();
+            isDialogShown = false; // Reset the flag when the dialog is dismissed
+        });
+
+        dialog.setOnDismissListener(dialogInterface -> isDialogShown = false); // Reset if the dialog is dismissed
 
         dialog.show();
     }

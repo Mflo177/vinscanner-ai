@@ -56,7 +56,6 @@ public class VinListActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_SCAN = 1;
 
-
     private VinViewModel vinViewModel;
     private VinInfoAdapter adapter;
     private VinList currentVinList;
@@ -137,6 +136,12 @@ public class VinListActivity extends AppCompatActivity {
     private void shareList() {
         // Get the list data
         List<VinInfo> vinInfos = adapter.getVinInfos();
+
+        // Check if the list is empty
+        if (vinInfos == null || vinInfos.isEmpty()) {
+            Toast.makeText(this, "Cannot share an empty list", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         // Create a CSV file
         File excelFile = createExcelFile(vinInfos);
