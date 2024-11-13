@@ -12,13 +12,79 @@
         android:layout_weight="1"
         android:background="#D0000000" />
 
-    <View
+    <!-- Focus rectangle with brackets -->
+
+    <FrameLayout
         android:id="@+id/id_focus_rect"
         android:layout_width="match_parent"
         android:layout_height="130dp"
         android:background="@android:color/transparent"
-        android:layout_weight="0"
-        android:layout_centerInParent="true" />
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
+
+        <!-- Top-left bracket -->
+        <View
+            android:id="@+id/id_top_left_bracket"
+            android:layout_width="40dp"
+            android:layout_height="4dp"
+            android:layout_gravity="top|start"
+            android:background="@android:color/white" />
+
+        <View
+            android:id="@+id/id_top_left_vertical_bracket"
+            android:layout_width="4dp"
+            android:layout_height="40dp"
+            android:layout_gravity="top|start"
+            android:background="@android:color/white" />
+
+        <!-- Top-right bracket -->
+        <View
+            android:id="@+id/id_top_right_bracket"
+            android:layout_width="40dp"
+            android:layout_height="4dp"
+            android:layout_gravity="top|end"
+            android:background="@android:color/white" />
+
+        <View
+            android:id="@+id/id_top_right_vertical_bracket"
+            android:layout_width="4dp"
+            android:layout_height="40dp"
+            android:layout_gravity="top|end"
+            android:background="@android:color/white" />
+
+        <!-- Bottom-left bracket -->
+        <View
+            android:id="@+id/id_bottom_left_bracket"
+            android:layout_width="40dp"
+            android:layout_height="4dp"
+            android:layout_gravity="bottom|start"
+            android:background="@android:color/white" />
+
+        <View
+            android:id="@+id/id_bottom_left_vertical_bracket"
+            android:layout_width="4dp"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom|start"
+            android:background="@android:color/white" />
+
+        <!-- Bottom-right bracket -->
+        <View
+            android:id="@+id/id_bottom_right_bracket"
+            android:layout_width="40dp"
+            android:layout_height="4dp"
+            android:layout_gravity="bottom|end"
+            android:background="@android:color/white" />
+
+        <View
+            android:id="@+id/id_bottom_right_vertical_bracket"
+            android:layout_width="4dp"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom|end"
+            android:background="@android:color/white" />
+
+    </FrameLayout>
 
     <View
         android:id="@+id/id_bottom_overlay"

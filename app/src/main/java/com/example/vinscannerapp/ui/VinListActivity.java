@@ -143,10 +143,10 @@ public class VinListActivity extends AppCompatActivity {
             return;
         }
 
-        // Create a CSV file
+        // Create a Excel file
         File excelFile = createExcelFile(vinInfos);
 
-        // Share the CSV file
+        // Share the Excel file
         if(excelFile != null) {
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
