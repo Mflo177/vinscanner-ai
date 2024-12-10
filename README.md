@@ -1,0 +1,1 @@
+An Android app designed to scan and detect VIN numbers, VIN barcodes, and VIN QR codes for efficient vehicle data management. The VinScanner App creates a list of scanned VINS and enables list sharing features via email in a excel file.
