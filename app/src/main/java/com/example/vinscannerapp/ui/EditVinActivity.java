@@ -49,7 +49,7 @@ import java.util.List;
 
             Toolbar toolbar = findViewById(R.id.id_toolbar2);
             setSupportActionBar(toolbar);
-            getSupportActionBar().setTitle("Update VIN");
+            getSupportActionBar().setTitle("Update Info");
 
             // Initialize UI components
             vinNumberTextView = findViewById(R.id.id_vin_number);

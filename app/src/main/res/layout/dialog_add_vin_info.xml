@@ -18,7 +18,7 @@
             android:id="@+id/id_vin_number_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="VIN: "
+            android:text="VIN:   "
             android:textSize="18sp"
             android:layout_marginEnd="8dp"/>
 
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="18sp"
-            android:textColor="@android:color/black" />
+             />
     </LinearLayout>
 
     <!-- Row Letter Spinner -->
@@ -93,7 +93,7 @@
             android:id="@+id/id_notes_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Notes:"
+            android:text="Notes: "
             android:textSize="18sp"
             android:layout_marginEnd="8dp"/>
 
