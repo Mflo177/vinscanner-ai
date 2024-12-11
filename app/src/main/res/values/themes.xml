@@ -1,9 +1,13 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.VinScannerApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Theme.VinScannerApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Other theme settings -->
+
+        <!-- Popup Menu Light Theme -->
+        <item name="popupMenuStyle">@style/CustomLightPopupTheme</item>
     </style>
 
-    <style name="Theme.VinScannerApp" parent="Base.Theme.VinScannerApp" />
+    <style name="CustomLightPopupTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:background">@android:color/white</item>
+    </style>
 </resources>

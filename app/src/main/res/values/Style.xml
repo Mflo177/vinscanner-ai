@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="Base.Theme.VinScannerApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    </style>
+
+    <!-- Popup Menu Dark Theme -->
+    <style name="CustomDarkPopupTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@color/black</item> <!-- Optional: Customize menu background color -->
+    </style>
+
+</resources>

@@ -6,22 +6,27 @@
         android:id="@+id/id_scanIcon"
         android:icon="@drawable/scan_icon"
         android:title="Scan"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+       />
 
 
     <item android:id="@+id/id_edit_listName"
         android:title="Edit List Name"
         app:showAsAction="never">
+        android:orderInCategory="1"
     </item>
 
     <item android:id="@+id/id_share_list"
         android:title="Share List"
-        app:showAsAction="never">
+        app:showAsAction="never"
+        android:orderInCategory="2">
     </item>
 
     <item
         android:id="@+id/id_deleteList"
         android:title="Delete List"
-        app:showAsAction="never">
+        app:showAsAction="never"
+        android:orderInCategory="3"
+        >
     </item>
 </menu>

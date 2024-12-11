@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -70,6 +73,17 @@ public class VinListActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.id_toolbar);
         setSupportActionBar(toolbar);
 
+        // Set the toolbar title text color programmatically (if not done in XML)
+        getSupportActionBar().setTitle("Your Title");
+        toolbar.setTitleTextColor(Color.WHITE);  // Ensure the title is white
+
+        // Change the 3-dots (overflow menu) icon color to white
+        Drawable overflowIcon = toolbar.getOverflowIcon();
+        if (overflowIcon != null) {
+            // Change the overflow menu icon color to white
+            overflowIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+        }
+
         // Retrieve list name from Intent and set as toolbar title
         Intent intent = getIntent();
         listName = intent.getStringExtra("listName");
@@ -79,6 +93,8 @@ public class VinListActivity extends AppCompatActivity {
         if (listName != null) {
             getSupportActionBar().setTitle(listName);
         }
+
+
 
         RecyclerView recyclerView = findViewById(R.id.id_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

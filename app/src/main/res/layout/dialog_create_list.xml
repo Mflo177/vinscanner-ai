@@ -25,6 +25,10 @@
             android:layout_height="wrap_content"
             android:text="Cancel" />
 
+        <Space
+            android:layout_width="32dp"
+            android:layout_height="wrap_content" />
+
         <Button
             android:id="@+id/id_btn_create"
             android:layout_width="wrap_content"

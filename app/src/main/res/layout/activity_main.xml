@@ -10,14 +10,14 @@
         android:id="@+id/tv_welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to VIN Scanner"
+        android:text="VIN Scanner"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/btn_create_new_vin_list"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="80dp"
         android:layout_marginBottom="16dp"
         android:gravity="center"/>
 
@@ -25,22 +25,26 @@
         android:id="@+id/btn_create_new_vin_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create New List"
+        android:text="Create List"
         app:layout_constraintTop_toBottomOf="@id/tv_welcome"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="16sp"
+        android:layout_marginTop="100dp"
         android:layout_marginBottom="16dp"/>
 
     <Button
         android:id="@+id/btn_view_saved_lists"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View Saved Lists"
+        android:text="Saved Lists"
         app:layout_constraintTop_toBottomOf="@id/btn_create_new_vin_list"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="16sp"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="16dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
