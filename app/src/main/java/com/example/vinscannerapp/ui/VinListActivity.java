@@ -11,7 +11,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -123,6 +126,15 @@ public class VinListActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_vin_list, menu);
+
+        // Find the "Delete List" item
+        MenuItem deleteItem = menu.findItem(R.id.id_deleteList);
+
+        // Change the title text color to red for the "Delete List" item
+        SpannableString spannableString = new SpannableString(deleteItem.getTitle());
+        spannableString.setSpan(new ForegroundColorSpan(Color.RED), 0, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        deleteItem.setTitle(spannableString);
+
         return true;
     }
 
