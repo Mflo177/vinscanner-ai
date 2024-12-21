@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Vin List</string>
+
 
     <string-array name="row_letter">
         <item>-</item>
