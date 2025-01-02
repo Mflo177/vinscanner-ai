@@ -1,4 +1,4 @@
-package com.example.vinscannerapp.viewmodel;
+package com.marioflo.vinscannerapp.viewmodel;
 
 import android.app.Application;
 import android.util.Log;
@@ -7,9 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.vinscannerapp.entities.VinInfo;
-import com.example.vinscannerapp.entities.VinList;
-import com.example.vinscannerapp.repository.VinRepository;
+import com.marioflo.vinscannerapp.entities.VinInfo;
+import com.marioflo.vinscannerapp.entities.VinList;
+import com.marioflo.vinscannerapp.repository.VinRepository;
 
 import java.util.List;
 

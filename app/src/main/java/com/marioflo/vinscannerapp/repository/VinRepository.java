@@ -1,15 +1,15 @@
-package com.example.vinscannerapp.repository;
+package com.marioflo.vinscannerapp.repository;
 
 import android.app.Application;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.vinscannerapp.dao.VinInfoDao;
-import com.example.vinscannerapp.dao.VinListDao;
-import com.example.vinscannerapp.database.AppDatabase;
-import com.example.vinscannerapp.entities.VinInfo;
-import com.example.vinscannerapp.entities.VinList;
+import com.marioflo.vinscannerapp.dao.VinInfoDao;
+import com.marioflo.vinscannerapp.dao.VinListDao;
+import com.marioflo.vinscannerapp.database.AppDatabase;
+import com.marioflo.vinscannerapp.entities.VinInfo;
+import com.marioflo.vinscannerapp.entities.VinList;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;

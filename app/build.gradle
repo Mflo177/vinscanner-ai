@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.vinscannerapp'
+    namespace 'com.marioflo.vinscannerapp'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.vinscannerapp"
+        applicationId "com.marioflo.vinscannerapp"
         minSdk 26
         targetSdk 33
         versionCode 1

@@ -1,10 +1,9 @@
-package com.example.vinscannerapp.ui;
+package com.marioflo.vinscannerapp.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,15 +18,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.vinscannerapp.R;
-import com.example.vinscannerapp.entities.VinInfo;
-import com.example.vinscannerapp.viewmodel.VinViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.marioflo.vinscannerapp.R;
+import com.marioflo.vinscannerapp.entities.VinInfo;
+import com.marioflo.vinscannerapp.viewmodel.VinViewModel;
 
 
-    public class EditVinActivity extends AppCompatActivity {
+public class EditVinActivity extends AppCompatActivity {
 
         private VinViewModel vinViewModel;
         private TextView vinNumberTextView;

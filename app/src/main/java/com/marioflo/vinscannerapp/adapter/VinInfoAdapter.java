@@ -1,4 +1,4 @@
-package com.example.vinscannerapp.adapter;
+package com.marioflo.vinscannerapp.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,9 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.vinscannerapp.R;
-import com.example.vinscannerapp.entities.VinInfo;
-import com.example.vinscannerapp.ui.EditVinActivity;
+import com.marioflo.vinscannerapp.R;
+import com.marioflo.vinscannerapp.entities.VinInfo;
+import com.marioflo.vinscannerapp.ui.EditVinActivity;
 
 import java.util.ArrayList;
 import java.util.List;

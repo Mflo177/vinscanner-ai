@@ -1,4 +1,4 @@
-package com.example.vinscannerapp.entities;
+package com.marioflo.vinscannerapp.entities;
 
 import androidx.room.Entity;
 import androidx.room.Ignore;

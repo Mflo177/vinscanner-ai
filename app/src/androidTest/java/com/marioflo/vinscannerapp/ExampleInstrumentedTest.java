@@ -1,4 +1,4 @@
-package com.example.vinscannerapp;
+package com.marioflo.vinscannerapp;
 
 import android.content.Context;
 

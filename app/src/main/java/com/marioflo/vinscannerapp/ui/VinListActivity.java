@@ -1,4 +1,4 @@
-package com.example.vinscannerapp.ui;
+package com.marioflo.vinscannerapp.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -10,12 +10,10 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,19 +28,17 @@ import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.vinscannerapp.R;
-import com.example.vinscannerapp.adapter.SwipeToDeleteCallback;
-import com.example.vinscannerapp.adapter.VinInfoAdapter;
-import com.example.vinscannerapp.entities.VinInfo;
-import com.example.vinscannerapp.entities.VinList;
-import com.example.vinscannerapp.viewmodel.VinViewModel;
+import com.marioflo.vinscannerapp.R;
+import com.marioflo.vinscannerapp.adapter.SwipeToDeleteCallback;
+import com.marioflo.vinscannerapp.adapter.VinInfoAdapter;
+import com.marioflo.vinscannerapp.entities.VinInfo;
+import com.marioflo.vinscannerapp.entities.VinList;
+import com.marioflo.vinscannerapp.viewmodel.VinViewModel;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -54,7 +50,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 

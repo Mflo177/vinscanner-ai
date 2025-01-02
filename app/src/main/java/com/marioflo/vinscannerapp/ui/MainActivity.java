@@ -1,10 +1,9 @@
-package com.example.vinscannerapp.ui;
+package com.marioflo.vinscannerapp.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,9 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.vinscannerapp.R;
-import com.example.vinscannerapp.entities.VinList;
-import com.example.vinscannerapp.viewmodel.VinViewModel;
+import com.marioflo.vinscannerapp.R;
+import com.marioflo.vinscannerapp.entities.VinList;
+import com.marioflo.vinscannerapp.viewmodel.VinViewModel;
 
 public class MainActivity extends AppCompatActivity {
 

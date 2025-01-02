@@ -1,4 +1,4 @@
-package com.example.vinscannerapp.ui;
+package com.marioflo.vinscannerapp.ui;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -35,9 +35,9 @@ import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.vinscannerapp.R;
-import com.example.vinscannerapp.entities.VinInfo;
-import com.example.vinscannerapp.viewmodel.VinViewModel;
+import com.marioflo.vinscannerapp.R;
+import com.marioflo.vinscannerapp.entities.VinInfo;
+import com.marioflo.vinscannerapp.viewmodel.VinViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
@@ -50,8 +50,6 @@ import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

@@ -1,4 +1,4 @@
-package com.example.vinscannerapp.ui;
+package com.marioflo.vinscannerapp.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,10 +13,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.vinscannerapp.R;
-import com.example.vinscannerapp.adapter.SavedListsAdapter;
-import com.example.vinscannerapp.entities.VinList;
-import com.example.vinscannerapp.viewmodel.VinViewModel;
+import com.marioflo.vinscannerapp.R;
+import com.marioflo.vinscannerapp.adapter.SavedListsAdapter;
+import com.marioflo.vinscannerapp.entities.VinList;
+import com.marioflo.vinscannerapp.viewmodel.VinViewModel;
 
 import java.util.List;
 

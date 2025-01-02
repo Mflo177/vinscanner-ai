@@ -1,4 +1,4 @@
-package com.example.vinscannerapp.adapter;
+package com.marioflo.vinscannerapp.adapter;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -14,9 +14,9 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.vinscannerapp.R;
-import com.example.vinscannerapp.entities.VinInfo;
-import com.example.vinscannerapp.viewmodel.VinViewModel;
+import com.marioflo.vinscannerapp.R;
+import com.marioflo.vinscannerapp.entities.VinInfo;
+import com.marioflo.vinscannerapp.viewmodel.VinViewModel;
 
 public class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
 
