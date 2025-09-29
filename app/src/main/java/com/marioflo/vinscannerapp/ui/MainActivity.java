@@ -38,9 +38,13 @@ public class MainActivity extends AppCompatActivity {
         // Initialize ViewModel for observing and updating VIN lists
         vinViewModel = new ViewModelProvider(this).get(VinViewModel.class);
 
+        // Button to create a new VIN list
         Button createButton = findViewById(R.id.btn_create_new_vin_list);
+        // Button to view all saved VIN lists
         Button savedListsButton = findViewById(R.id.btn_view_saved_lists);
 
+
+        // Set click listener to show the create-list dialog
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Navigate to SavedListsActivity when the saved lists button is clicked
         savedListsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

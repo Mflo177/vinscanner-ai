@@ -23,6 +23,17 @@ import com.marioflo.vinscannerapp.entities.VinInfo;
 import com.marioflo.vinscannerapp.viewmodel.VinViewModel;
 
 
+/**
+ * Activity to edit details of a single VIN entry.
+ * <p>
+ * Allows users to update:
+ * - Lot location (row letter)
+ * - Space number
+ * - Extra notes
+ * <p>
+ * Utilizes ViewModel for MVVM architecture, LiveData observation,
+ * and enables/disables the update button based on modifications.
+ */
 public class EditVinActivity extends AppCompatActivity {
 
         private VinViewModel vinViewModel;
@@ -33,9 +44,9 @@ public class EditVinActivity extends AppCompatActivity {
         private Button updateButton;
         private Button cancelButton;
 
-        private VinInfo originalVinInfo; // Store the original VinInfo
+        private VinInfo originalVinInfo; // Original VinInfo loaded from database
         private boolean isLotLocationModified = false;
-        private boolean isSpaceNumberModified = false; // Track space number changes
+        private boolean isSpaceNumberModified = false;
         private boolean isExtraNotesModified = false;
 
         @Override
@@ -43,45 +54,40 @@ public class EditVinActivity extends AppCompatActivity {
             super.onCreate(savedInstance);
             setContentView(R.layout.activity_edit_vin);
 
-            Toolbar toolbar = findViewById(R.id.id_toolbar2);
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setTitle("Update Info");
-
-            // Initialize UI components
-            vinNumberTextView = findViewById(R.id.id_vin_number);
-            lotLocationSpinner = findViewById(R.id.id_lot_location_spinner);
-            spaceNumberSpinner = findViewById(R.id.id_space_number_spinner);
-            notesEditText = findViewById(R.id.id_notes_edit_text);
-            updateButton = findViewById(R.id.id_update_button);
-            cancelButton = findViewById(R.id.id_cancel_button);
-
-            // Disable update button initially
-            updateButton.setEnabled(false);
-
-            // Populate the spinners
+            setupToolbar();
+            initializeUIComponents();
             populateSpinners();
-
-            // Initialize ViewModel
-            vinViewModel = new ViewModelProvider(this).get(VinViewModel.class);
-
-            // Retrieve data from Intent
-            Intent intent = getIntent();
-            if (intent != null && intent.hasExtra("VIN_INFO_ID")) {
-                int vinInfoId = intent.getIntExtra("VIN_INFO_ID", -1);
-                vinViewModel.getVinInfoById(vinInfoId).observe(this, vinInfo -> {
-                    if (vinInfo != null) {
-                        originalVinInfo = vinInfo;
-                        prefillFields();
-                        setFieldListeners();
-                    }
-                });
-
-                // Set button actions
-                updateButton.setOnClickListener(v -> updateVinInfo());
-                cancelButton.setOnClickListener(v -> finish());
-            }
+            initializeViewModel();
+            loadVinInfoFromIntent();
         }
 
+    /**
+     * Set up Toolbar with title.
+     */
+    private void setupToolbar() {
+        Toolbar toolbar = findViewById(R.id.id_toolbar2);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Update Info");
+        }
+    }
+
+    /**
+     * Initialize references to UI components.
+     */
+    private void initializeUIComponents() {
+        vinNumberTextView = findViewById(R.id.id_vin_number);
+        lotLocationSpinner = findViewById(R.id.id_lot_location_spinner);
+        spaceNumberSpinner = findViewById(R.id.id_space_number_spinner);
+        notesEditText = findViewById(R.id.id_notes_edit_text);
+        updateButton = findViewById(R.id.id_update_button);
+        cancelButton = findViewById(R.id.id_cancel_button);
+        updateButton.setEnabled(false); // Disable update until fields are modified
+    }
+
+    /**
+     * Populate spinners with predefined values from resources.
+     */
         private void populateSpinners() {
             // Populate the lot location spinner
             ArrayAdapter<CharSequence> lotLocationAdapter = ArrayAdapter.createFromResource(this,
@@ -96,28 +102,50 @@ public class EditVinActivity extends AppCompatActivity {
             spaceNumberSpinner.setAdapter(spaceNumberAdapter);
         }
 
-        private void prefillFields() {
+    /**
+     * Initialize the ViewModel for accessing and updating VIN data.
+     */
+    private void initializeViewModel() {
+        vinViewModel = new ViewModelProvider(this).get(VinViewModel.class);
+    }
+
+    /**
+     * Load the VinInfo object passed via Intent and prefill UI fields.
+     */
+    private void loadVinInfoFromIntent() {
+        Intent intent = getIntent();
+        if (intent == null || !intent.hasExtra("VIN_INFO_ID")) return;
+
+        int vinInfoId = intent.getIntExtra("VIN_INFO_ID", -1);
+        vinViewModel.getVinInfoById(vinInfoId).observe(this, vinInfo -> {
+            if (vinInfo != null) {
+                originalVinInfo = vinInfo;
+                prefillFields();
+                setFieldListeners();
+            }
+        });
+
+        // Button actions
+        updateButton.setOnClickListener(v -> updateVinInfo());
+        cancelButton.setOnClickListener(v -> finish());
+    }
+
+
+    /**
+     * Prefill UI fields with data from the original VinInfo object.
+     */
+    private void prefillFields() {
             vinNumberTextView.setText(originalVinInfo.getVinNumber());
             notesEditText.setText(originalVinInfo.getExtraNotes());
 
-            // Set lot location spinner selection
-            ArrayAdapter<CharSequence> lotLocationAdapter = (ArrayAdapter<CharSequence>) lotLocationSpinner.getAdapter();
-            if (lotLocationAdapter != null) {
-                int lotLocationPosition = lotLocationAdapter.getPosition(originalVinInfo.getRowLetter());
-                if (lotLocationPosition >= 0) {
-                    lotLocationSpinner.setSelection(lotLocationPosition);
-                }
-            }
-
-            // Set space number spinner selection
-            ArrayAdapter<CharSequence> spaceNumberAdapter = (ArrayAdapter<CharSequence>) spaceNumberSpinner.getAdapter();
-            if (spaceNumberAdapter != null) {
-                int spaceNumberPosition = spaceNumberAdapter.getPosition(originalVinInfo.getSpaceNumber());
-                if (spaceNumberPosition >= 0) {
-                    spaceNumberSpinner.setSelection(spaceNumberPosition);
-                }
-            }
+            selectSpinnerItem(lotLocationSpinner, originalVinInfo.getRowLetter());
+            selectSpinnerItem(spaceNumberSpinner, originalVinInfo.getSpaceNumber());
         }
+
+
+    /**
+     * Set spinner and text change listeners to track modifications.
+     */
         private void setFieldListeners() {
             lotLocationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -161,10 +189,17 @@ public class EditVinActivity extends AppCompatActivity {
             });
         }
 
+    /**
+     * Enable the update button if any field has been modified.
+     */
         private void checkForModifications() {
             updateButton.setEnabled(isLotLocationModified || isSpaceNumberModified || isExtraNotesModified);
         }
 
+    /**
+     * Update the VinInfo object if modifications are detected.
+     * Saves the updated object via ViewModel.
+     */
         private void updateVinInfo() {
             if (originalVinInfo != null) {
                 // Update the rowLetter (lotLocation) only if modified
@@ -193,4 +228,16 @@ public class EditVinActivity extends AppCompatActivity {
                 finish();
             }
         }
+
+    /**
+     * Helper to select a spinner item by its value.
+     */
+    private void selectSpinnerItem(Spinner spinner, String value) {
+        if (value == null) return;
+        ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) spinner.getAdapter();
+        if (adapter == null) return;
+
+        int position = adapter.getPosition(value);
+        if (position >= 0) spinner.setSelection(position);
+    }
     }

@@ -58,13 +58,13 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * CameraActivity is responsible for capturing VIN images using CameraX,
- * allowing touch-to-focus, and delegating VIN detection to the VinScanner class.
- * Once a VIN is detected, it opens a dialog to let the user add additional info
- * before saving to the database via VinViewModel.
- *
- * This activity demonstrates the use of CameraX, ML Kit (barcode & text recognition),
- * and Android architecture components.
+ * CameraActivity is responsible for:
+ * 1. Capturing VIN images using CameraX.
+ * 2. Allowing touch-to-focus on the camera preview.
+ * 3. Delegating VIN detection to VinScanner (ML Kit or custom logic).
+ * 4. Displaying a dialog for adding additional info before saving.
+ * <p>
+ * Demonstrates CameraX usage, Android MVVM, and UI interactions for entry-level Android/ML roles.
  */
 public class CameraActivity extends AppCompatActivity {
 
@@ -95,6 +95,7 @@ public class CameraActivity extends AppCompatActivity {
         listId = getIntent().getIntExtra("listId", -1);
         vinViewModel = new ViewModelProvider(this).get(VinViewModel.class);
 
+        // Capture button click listener
         captureButton.setOnClickListener(v -> capturePhoto());
 
         startCamera();
@@ -110,8 +111,9 @@ public class CameraActivity extends AppCompatActivity {
         findViewById(R.id.captureButton).setOnClickListener(v -> capturePhoto());
     }
 
-    /** Camera setup **/
-    private void startCamera() {
+    /**
+     * Initialize CameraX and bind lifecycle.
+     */    private void startCamera() {
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(this);
         cameraProviderFuture.addListener(() -> {
             try {
@@ -123,6 +125,11 @@ public class CameraActivity extends AppCompatActivity {
         }, ContextCompat.getMainExecutor(this));
     }
 
+    /**
+     * Bind camera preview and image capture to lifecycle.
+     *
+     * @param cameraProvider ProcessCameraProvider instance
+     */
     private void bindPreview(@NonNull ProcessCameraProvider cameraProvider) {
         Preview preview = new Preview.Builder().build();
         CameraSelector cameraSelector = new CameraSelector.Builder()
@@ -136,6 +143,12 @@ public class CameraActivity extends AppCompatActivity {
         cameraControl = camera.getCameraControl(); // Initialize the CameraControl
     }
 
+    /**
+     * Trigger camera focus at the touch location.
+     *
+     * @param x X coordinate of touch
+     * @param y Y coordinate of touch
+     */
     private void focusOnTap(float x, float y) {
         if (previewView.getMeteringPointFactory() == null || cameraControl == null) {
             return;
@@ -180,6 +193,11 @@ public class CameraActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Process captured image and detect VIN.
+     *
+     * @param file captured image file
+     */
     private void processImage(File file) {
         VinScanner.processImage(this, file, new VinScanner.Callback() {
             @Override
@@ -194,14 +212,23 @@ public class CameraActivity extends AppCompatActivity {
         });
     }
 
-    /** VIN Handling **/
-    private void handleVinCode(String vinCode) {
+
+    /**
+     * Handle a detected VIN by showing a dialog to add details.
+     *
+     * @param vinCode detected VIN
+     */    private void handleVinCode(String vinCode) {
         Log.d(TAG, "VIN detected: " + vinCode);
 
         // Show a dialog to get additional information before adding the VinInfo
         showVinInfoDialog(vinCode);
     }
 
+    /**
+     * Display a dialog to input VIN details before saving to database.
+     *
+     * @param vinCode detected VIN
+     */
     private void showVinInfoDialog(String vinCode) {
         if (isDialogShown) return; // If a dialog is already shown, do nothing
 
@@ -228,77 +255,67 @@ public class CameraActivity extends AppCompatActivity {
         // Set the VIN number
         vinNumberTextView.setText(vinCode);
 
-        // Set up the row location spinner
-        ArrayAdapter<CharSequence> rowAdapter = ArrayAdapter.createFromResource(this,
-                R.array.row_letter, android.R.layout.simple_spinner_item);
-        rowAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        rowLetterSpinner.setAdapter(rowAdapter);
-
-        // Set default selection for row letter
-        String defaultRowLetter = "-"; // Default or retrieved value
-        int rowPosition = rowAdapter.getPosition(defaultRowLetter);
-        if (rowPosition >= 0) {
-            rowLetterSpinner.setSelection(rowPosition);
-        }
-
-        // Set up the space number spinner using the string-array from resources
-        ArrayAdapter<CharSequence> spaceAdapter = ArrayAdapter.createFromResource(this,
-                R.array.space_numbers, android.R.layout.simple_spinner_item);
-        spaceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spaceNumberSpinner.setAdapter(spaceAdapter);
-
-        // Set default selection for space number
-        String defaultSpaceNumber = "-"; // Default or retrieved value
-        int spacePosition = spaceAdapter.getPosition(defaultSpaceNumber);
-        spaceNumberSpinner.setSelection(spacePosition);
+        setupSpinner(rowLetterSpinner, R.array.row_letter, "-");
+        setupSpinner(spaceNumberSpinner, R.array.space_numbers, "-");
 
         AlertDialog dialog = builder.create();
-        dialog.setCancelable(false); // Make the dialog non-cancelable by clicking outside
+        dialog.setCancelable(false);
 
         addButton.setOnClickListener(v -> {
-            String rowLetter = rowLetterSpinner.getSelectedItem().toString();
-            String spaceNumberString = spaceNumberSpinner.getSelectedItem().toString();
-            String extraNotes = notesEditText.getText().toString();
-
-            // Set rowLetter to null if "-" is selected
-            String finalRowLetter = "-".equals(rowLetter) ? null : rowLetter;
-
-            // Set spaceNumber to null if "-" is selected
-            String finalSpaceNumber = "-".equals(spaceNumberString) ? null : spaceNumberString;
-
-            // Set extraNotes to null if it's blank
-            String finalExtraNotes = extraNotes.trim().isEmpty() ? null : extraNotes;
-
             VinInfo vinInfo = new VinInfo(vinCode, listId);
-            vinInfo.setRowLetter(finalRowLetter);
-            vinInfo.setSpaceNumber(finalSpaceNumber);
-            vinInfo.setExtraNotes(finalExtraNotes);
+            vinInfo.setRowLetter(getSpinnerValue(rowLetterSpinner));
+            vinInfo.setSpaceNumber(getSpinnerValue(spaceNumberSpinner));
+            vinInfo.setExtraNotes(getEditTextValue(notesEditText));
 
             vinViewModel.insertVinInfo(vinInfo);
             dialog.dismiss();
             showSuccessToast();
-            isDialogShown = false; // Reset the flag when the dialog is dismissed
-        });
-        cancelButton.setOnClickListener(v -> {
-            dialog.dismiss();
-            isDialogShown = false; // Reset the flag when the dialog is dismissed
+            isDialogShown = false;
         });
 
-        dialog.setOnDismissListener(dialogInterface -> isDialogShown = false); // Reset if the dialog is dismissed
+        cancelButton.setOnClickListener(v -> {
+            dialog.dismiss();
+            isDialogShown = false;
+        });
+
+        dialog.setOnDismissListener(dialogInterface -> isDialogShown = false);
         dialog.show();
     }
 
+    /**
+     * Helper to initialize spinner with default value.
+     */
+    private void setupSpinner(Spinner spinner, int arrayResId, String defaultValue) {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                arrayResId, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        int position = adapter.getPosition(defaultValue);
+        if (position >= 0) spinner.setSelection(position);
+    }
+
+    private String getSpinnerValue(Spinner spinner) {
+        String value = spinner.getSelectedItem().toString();
+        return "-".equals(value) ? null : value;
+    }
+
+    private String getEditTextValue(EditText editText) {
+        String value = editText.getText().toString().trim();
+        return value.isEmpty() ? null : value;
+    }
+
+    /**
+     * Show a small toast indicating VIN addition success.
+     */
     private void showSuccessToast() {
         Toast toast = Toast.makeText(this, "Successfully added VIN", Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 200); // Adjust vertical offset if needed
         toast.show();
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         cameraExecutor.shutdown();
     }
-
 }

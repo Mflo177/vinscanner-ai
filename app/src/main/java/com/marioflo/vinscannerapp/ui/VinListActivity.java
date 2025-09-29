@@ -53,6 +53,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
+
+/**
+ * VinListActivity displays all VIN entries in a specific VIN list.
+ * <p>
+ * Features:
+ * - RecyclerView with swipe-to-delete functionality.
+ * - Edit list name and delete the entire list.
+ * - Share list as an Excel spreadsheet.
+ * - Launch CameraActivity to scan and add VINs.
+ * <p>
+ * Follows MVVM architecture, uses VinViewModel for data handling.
+ * Implements reactive UI using LiveData and RecyclerView adapter updates.
+ */
 public class VinListActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_SCAN = 1;
@@ -68,21 +81,19 @@ public class VinListActivity extends AppCompatActivity {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_vin_list); // Set the correct layout file here
 
+        setupToolbar();
+        setupRecyclerView();
+        setupViewModelAndObservers();
+        }
+
+
+    /**
+     * Set up Toolbar with title, color, and overflow menu icon color.
+     */
+    private void setupToolbar() {
         Toolbar toolbar = findViewById(R.id.id_toolbar);
         setSupportActionBar(toolbar);
 
-        // Set the toolbar title text color programmatically (if not done in XML)
-        getSupportActionBar().setTitle("Your Title");
-        toolbar.setTitleTextColor(Color.WHITE);  // Ensure the title is white
-
-        // Change the 3-dots (overflow menu) icon color to white
-        Drawable overflowIcon = toolbar.getOverflowIcon();
-        if (overflowIcon != null) {
-            // Change the overflow menu icon color to white
-            overflowIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-        }
-
-        // Retrieve list name from Intent and set as toolbar title
         Intent intent = getIntent();
         listName = intent.getStringExtra("listName");
         int listId = intent.getIntExtra("listId", -1);
@@ -92,40 +103,57 @@ public class VinListActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(listName);
         }
 
+        toolbar.setTitleTextColor(Color.WHITE);
 
-
+        Drawable overflowIcon = toolbar.getOverflowIcon();
+        if (overflowIcon != null) {
+            overflowIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+        }
+    }
+    /**
+     * Initialize RecyclerView with LinearLayoutManager and VinInfoAdapter.
+     * Attach ItemTouchHelper for swipe-to-delete functionality.
+     */
+    private void setupRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.id_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         adapter = new VinInfoAdapter(this);
         recyclerView.setAdapter(adapter);
 
-        vinViewModel = new ViewModelProvider(this).get(VinViewModel.class);
-
-        vinViewModel.getVinInfoForList(listId).observe(this, vinInfos -> adapter.setVinInfos(vinInfos));
-
-
-        vinViewModel.getVinList(listId).observe(this, vinList -> {
-            currentVinList = vinList;
-            if(vinList != null) {
-                getSupportActionBar().setTitle(vinList.getName());
-            }
-        });
-
-        // Attach ItemTouchHelper
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new SwipeToDeleteCallback(adapter, vinViewModel));
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
+
+
+    /**
+     * Initialize ViewModel and observe LiveData to update RecyclerView and Toolbar.
+     */
+    private void setupViewModelAndObservers() {
+        vinViewModel = new ViewModelProvider(this).get(VinViewModel.class);
+
+        // Observe VIN entries in the current list
+        int listId = getIntent().getIntExtra("listId", -1);
+        vinViewModel.getVinInfoForList(listId).observe(this, vinInfos -> adapter.setVinInfos(vinInfos));
+
+        // Observe list metadata to update Toolbar title
+        vinViewModel.getVinList(listId).observe(this, vinList -> {
+            currentVinList = vinList;
+            if (vinList != null) {
+                getSupportActionBar().setTitle(vinList.getName());
+            }
+        });
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_vin_list, menu);
 
-        // Find the "Delete List" item
+        // Change Delete List item title color to red
         MenuItem deleteItem = menu.findItem(R.id.id_deleteList);
-
-        // Change the title text color to red for the "Delete List" item
         SpannableString spannableString = new SpannableString(deleteItem.getTitle());
         spannableString.setSpan(new ForegroundColorSpan(Color.RED), 0, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         deleteItem.setTitle(spannableString);
@@ -137,34 +165,43 @@ public class VinListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.id_scanIcon) {
-            // Handle scan icon click
-            Intent intent = new Intent(VinListActivity.this, CameraActivity.class);
-            intent.putExtra("listId", currentVinList.getId());
-            startActivityForResult(intent, REQUEST_CODE_SCAN);
-            return true;
-        } else if (id == R.id.id_edit_listName) {
-            showEditListNameDialog();
+        switch (id) {
+            case R.id.id_scanIcon:
+                startCameraActivity();
+                return true;
+            case R.id.id_edit_listName:
+                showEditListNameDialog();
+                return true;
+            case R.id.id_deleteList:
+                showDeleteConfirmationDialog();
+                return true;
+            case R.id.id_share_list:
+                shareList();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        else if (id == R.id.id_deleteList) {
-            // Handle delete list click
-            showDeleteConfirmationDialog();
-            return true;
-        } else if(id == R.id.id_share_list) {
-            shareList();
-        }
-        return super.onOptionsItemSelected(item);
     }
 
-    private void shareList() {
-        // Get the list data
-        List<VinInfo> vinInfos = adapter.getVinInfos();
+    /**
+     * Launch CameraActivity to scan a VIN for this list.
+     */
+    private void startCameraActivity() {
+        Intent intent = new Intent(this, CameraActivity.class);
+        intent.putExtra("listId", currentVinList.getId());
+        startActivityForResult(intent, REQUEST_CODE_SCAN);
+    }
 
-        // Check if the list is empty
+    /**
+     * Share the current list as an Excel spreadsheet.
+     */
+    private void shareList() {
+        List<VinInfo> vinInfos = adapter.getVinInfos();
         if (vinInfos == null || vinInfos.isEmpty()) {
             Toast.makeText(this, "Cannot share an empty list", Toast.LENGTH_SHORT).show();
             return;
         }
+
 
         // Create a Excel file
         File excelFile = createExcelFile(vinInfos);
@@ -186,6 +223,9 @@ public class VinListActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Generate an Excel file for sharing using Apache POI.
+     */
     private File createExcelFile(List<VinInfo> vinInfos) {
         File excelFile = null;
         try {
@@ -287,6 +327,9 @@ public class VinListActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * Show a dialog to edit the current VIN list name.
+     */
     private void showEditListNameDialog() {
         // Inflate the dialog layout
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -350,38 +393,25 @@ public class VinListActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Show confirmation dialog before deleting the current VIN list.
+     */
     private void showDeleteConfirmationDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Delete List");
-        builder.setMessage("Are you sure you want to delete this list?");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setTitle("Delete List")
+                .setMessage("Are you sure you want to delete this list?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    if (currentVinList != null) {
+                        vinViewModel.deleteVinList(currentVinList);
+                        Toast.makeText(this, "List deleted", Toast.LENGTH_SHORT).show();
 
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (currentVinList != null) {
-                    vinViewModel.deleteVinList(currentVinList);
-                    Toast.makeText(VinListActivity.this, "List deleted", Toast.LENGTH_SHORT).show();
-
-                    // Navigate back to the appropriate activity after deletion
-                    Intent intent;
-                    if (isNewList) {
-                        intent = new Intent(VinListActivity.this, MainActivity.class);
-                    } else {
-                        intent = new Intent(VinListActivity.this, SavedListsActivity.class);
+                        Intent intent = new Intent(this, isNewList ? MainActivity.class : SavedListsActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finish();
                     }
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        });
-
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+                })
+                .setNegativeButton("No", (dialog, which) -> dialog.cancel());
 
         builder.show();
     }
