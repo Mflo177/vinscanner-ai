@@ -37,6 +37,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.marioflo.vinscannerapp.R;
 import com.marioflo.vinscannerapp.entities.VinInfo;
+import com.marioflo.vinscannerapp.scanner.VinScanner;
 import com.marioflo.vinscannerapp.viewmodel.VinViewModel;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
@@ -55,17 +56,27 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+
+/**
+ * CameraActivity is responsible for capturing VIN images using CameraX,
+ * allowing touch-to-focus, and delegating VIN detection to the VinScanner class.
+ * Once a VIN is detected, it opens a dialog to let the user add additional info
+ * before saving to the database via VinViewModel.
+ *
+ * This activity demonstrates the use of CameraX, ML Kit (barcode & text recognition),
+ * and Android architecture components.
+ */
 public class CameraActivity extends AppCompatActivity {
 
     private static final String TAG = "CameraActivity";
     private PreviewView previewView;
     private ImageCapture imageCapture;
     private ExecutorService cameraExecutor;
-    private int listId;
-    private VinViewModel vinViewModel;
     private CameraControl cameraControl;
     private Vibrator vibrator;
 
+    private int listId;
+    private VinViewModel vinViewModel;
     private boolean isDialogShown = false;
 
 
@@ -88,7 +99,7 @@ public class CameraActivity extends AppCompatActivity {
 
         startCamera();
 
-        // Set touch listener for focus
+        // Touch-to-focus support
         previewView.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 focusOnTap(event.getX(), event.getY());
@@ -99,6 +110,7 @@ public class CameraActivity extends AppCompatActivity {
         findViewById(R.id.captureButton).setOnClickListener(v -> capturePhoto());
     }
 
+    /** Camera setup **/
     private void startCamera() {
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(this);
         cameraProviderFuture.addListener(() -> {
@@ -143,83 +155,46 @@ public class CameraActivity extends AppCompatActivity {
                 }, ContextCompat.getMainExecutor(this));
     }
 
+    /** Capture & process **/
     private void capturePhoto() {
-        if (imageCapture == null) {
-            return;
-        }
+        if (imageCapture == null) return;
 
-        // Create output options object which contains file + metadata
-        ImageCapture.OutputFileOptions outputOptions = new ImageCapture.OutputFileOptions.Builder(new File(getFilesDir(), "VIN_capture.jpg")).build();
+        File file = new File(getFilesDir(), "VIN_capture.jpg");
+        ImageCapture.OutputFileOptions options =
+                new ImageCapture.OutputFileOptions.Builder(file).build();
 
-        // Set up image capture listener, which is triggered after photo has been taken
-        imageCapture.takePicture(outputOptions, cameraExecutor, new ImageCapture.OnImageSavedCallback() {
-            @Override
-            public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-                runOnUiThread(() -> {
-                    processImage();
+        imageCapture.takePicture(options, cameraExecutor,
+                new ImageCapture.OnImageSavedCallback() {
+                    @Override
+                    public void onImageSaved(@NonNull ImageCapture.OutputFileResults output) {
+                        runOnUiThread(() -> processImage(file));
+                    }
+
+                    @Override
+                    public void onError(@NonNull ImageCaptureException exception) {
+                        runOnUiThread(() ->
+                                Toast.makeText(CameraActivity.this,
+                                        "Photo capture failed: " + exception.getMessage(),
+                                        Toast.LENGTH_SHORT).show());
+                    }
                 });
+    }
+
+    private void processImage(File file) {
+        VinScanner.processImage(this, file, new VinScanner.Callback() {
+            @Override
+            public void onVinDetected(String vinCode) {
+                handleVinCode(vinCode);
             }
 
             @Override
-            public void onError(@NonNull ImageCaptureException exception) {
-                runOnUiThread(() -> {
-                    Toast.makeText(CameraActivity.this, "Photo capture failed: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
-                });
+            public void onError(String message) {
+                Toast.makeText(CameraActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void processImage() {
-        File file = new File(getFilesDir(), "VIN_capture.jpg");
-        InputImage image;
-
-        try {
-            image = InputImage.fromFilePath(this, Uri.fromFile(file));
-
-            // Barcode scanning
-            BarcodeScanner scanner = BarcodeScanning.getClient();
-            scanner.process(image)
-                    .addOnSuccessListener(barcodes -> {
-                        boolean vinFound = false;
-                        for (Barcode barcode : barcodes) {
-                            String rawValue = barcode.getRawValue();
-                            if (rawValue != null && rawValue.length() == 17 && rawValue.matches("[A-HJ-NPR-Z0-9]+")) {  //Ask GPT what <-- regex"[write actual code to gpt]"
-                                vinFound = true;
-                                handleVinCode(rawValue);
-                                break;
-                            }
-                        }
-                        if (!vinFound) {
-                            // Text recognition as a last resort
-                            recognizeText(image);
-                        }
-                    })
-                    .addOnFailureListener(e -> {
-                        // If barcode scanning fails, try text recognition
-                        recognizeText(image);
-                    });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void recognizeText(InputImage image) {
-        TextRecognizer recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
-        recognizer.process(image)
-                .addOnSuccessListener(result -> {
-                    for (Text.TextBlock block : result.getTextBlocks()) {
-                        String recognizedText = block.getText();
-                        if (recognizedText.length() == 17 && recognizedText.matches("[A-HJ-NPR-Z0-9]+")) {
-                            handleVinCode(recognizedText);
-                            break;
-                        }
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(CameraActivity.this, "Text recognition failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                });
-    }
-
+    /** VIN Handling **/
     private void handleVinCode(String vinCode) {
         Log.d(TAG, "VIN detected: " + vinCode);
 
@@ -310,7 +285,6 @@ public class CameraActivity extends AppCompatActivity {
         });
 
         dialog.setOnDismissListener(dialogInterface -> isDialogShown = false); // Reset if the dialog is dismissed
-
         dialog.show();
     }
 

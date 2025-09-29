@@ -1,4 +1,4 @@
-package com.marioflo.vinscannerapp.dao;
+package com.marioflo.vinscannerapp.data.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

@@ -6,8 +6,8 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.marioflo.vinscannerapp.dao.VinInfoDao;
-import com.marioflo.vinscannerapp.dao.VinListDao;
+import com.marioflo.vinscannerapp.data.dao.VinInfoDao;
+import com.marioflo.vinscannerapp.data.dao.VinListDao;
 import com.marioflo.vinscannerapp.entities.VinInfo;
 import com.marioflo.vinscannerapp.entities.VinList;
 
