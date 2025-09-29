@@ -16,8 +16,18 @@ import com.marioflo.vinscannerapp.R;
 import com.marioflo.vinscannerapp.entities.VinList;
 import com.marioflo.vinscannerapp.viewmodel.VinViewModel;
 
+
+/**
+ * MainActivity is the entry point of the VinScanner App.
+ * <p>
+ * Responsibilities:
+ * 1. Display main menu options: create a new VIN list or view saved lists.
+ * 2. Handle user interactions for creating a new list.
+ * 3. Demonstrates LiveData observation and navigation between Activities.
+ */
 public class MainActivity extends AppCompatActivity {
 
+    // ViewModel to interact with VIN data (Repository + Room database)
     private VinViewModel vinViewModel;
 
     @Override
@@ -25,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Initialize ViewModel for observing and updating VIN lists
         vinViewModel = new ViewModelProvider(this).get(VinViewModel.class);
 
         Button createButton = findViewById(R.id.btn_create_new_vin_list);
@@ -46,6 +57,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Displays a dialog for creating a new VIN list.
+     * <p>
+     * Users enter a name for the new list. Upon creation, the latest list ID is
+     * observed via LiveData and the user is navigated to VinListActivity.
+     */
     private void showCreateListDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -66,19 +83,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Create button handles VIN list creation
         buttonCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String listName = editTextListName.getText().toString();
                 if (!listName.isEmpty()) {
                     VinList vinList = new VinList(listName);
+
+                    // Insert the new list into the database via ViewModel
                     vinViewModel.insertVinList(vinList);
                     dialog.dismiss();
 
-                    // Observe the insertion result to get the latest list ID and navigate
+                    // Observe LiveData to get the latest list ID for navigation
                     vinViewModel.getAllVinLists().observe(MainActivity.this, vinLists -> {
                         if (vinLists != null && !vinLists.isEmpty()) {
                             VinList latestList = vinLists.get(vinLists.size() - 1);
+
+                            // Navigate to VinListActivity, passing list ID and name
                             Intent intent = new Intent(MainActivity.this, VinListActivity.class);
                             intent.putExtra("listId", latestList.getId());
                             intent.putExtra("listName", latestList.getName()); // Pass the list name
