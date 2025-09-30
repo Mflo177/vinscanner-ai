@@ -2,7 +2,7 @@ package com.marioflo.vinscannerapp.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
+import com.marioflo.vinscannerapp.R;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -34,8 +34,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.marioflo.vinscannerapp.R;
-import com.marioflo.vinscannerapp.adapter.SwipeToDeleteCallback;
-import com.marioflo.vinscannerapp.adapter.VinInfoAdapter;
+import com.marioflo.vinscannerapp.ui.adapter.SwipeToDeleteCallback;
+import com.marioflo.vinscannerapp.ui.adapter.VinInfoAdapter;
 import com.marioflo.vinscannerapp.entities.VinInfo;
 import com.marioflo.vinscannerapp.entities.VinList;
 import com.marioflo.vinscannerapp.viewmodel.VinViewModel;
@@ -165,22 +165,18 @@ public class VinListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch (id) {
-            case R.id.id_scanIcon:
-                startCameraActivity();
-                return true;
-            case R.id.id_edit_listName:
-                showEditListNameDialog();
-                return true;
-            case R.id.id_deleteList:
-                showDeleteConfirmationDialog();
-                return true;
-            case R.id.id_share_list:
-                shareList();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        if (id == R.id.id_scanIcon) {
+            startCameraActivity();
+        } else if (id == R.id.id_edit_listName) {
+            showEditListNameDialog();
+        } else if (id == R.id.id_deleteList) {
+            showDeleteConfirmationDialog();
+        } else if (id == R.id.id_share_list) {
+            shareList();
+        } else {
+            return super.onOptionsItemSelected(item);
         }
+        return true;
     }
 
     /**

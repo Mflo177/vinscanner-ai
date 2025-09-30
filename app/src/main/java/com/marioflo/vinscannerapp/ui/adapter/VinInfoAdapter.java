@@ -18,21 +18,48 @@ import com.marioflo.vinscannerapp.ui.EditVinActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * RecyclerView Adapter for displaying VIN information in a list.
+ * Each row represents a {@link VinInfo} object with details such as VIN number,
+ * lot location, space number, and extra notes.
+ *
+ * <p>This adapter also supports row clicks to edit VIN details
+ * and deleting items via an external listener.</p>
+ *
+ * Usage:
+ * - Call {@link #setVinInfos(List)} to populate the adapter with VIN entries.
+ * - Implement {@link OnItemDeleteListener} to handle delete events.
+ */
 public class VinInfoAdapter extends RecyclerView.Adapter<VinInfoAdapter.VinInfoHolder> {
 
+    /** Request code constant for starting EditVinActivity. */
     private static final int REQUEST_CODE_EDIT_VIN = 2; // Declare the request code constant
     private List<VinInfo> vinInfos = new ArrayList<>();
     private Context context;
     private OnItemDeleteListener onItemDeleteListener;
 
-    public VinInfoAdapter(Context context) {
-        this.context = context;
-    }
-
+    /**
+     * Listener interface for handling delete actions from the adapter.
+     */
     public interface OnItemDeleteListener {
         void onItemDelete(VinInfo vinInfo);
     }
 
+    /**
+     * Constructor for VinInfoAdapter.
+     *
+     * @param context The context in which the adapter is being used (e.g., an Activity).
+     */
+    public VinInfoAdapter(Context context) {
+        this.context = context;
+    }
+
+
+    /**
+     * Assign a listener for delete actions.
+     *
+     * @param listener The {@link OnItemDeleteListener} to notify when an item is deleted.
+     */
     public void setOnItemDeleteListener(OnItemDeleteListener listener) {
         this.onItemDeleteListener = listener;
     }
@@ -48,20 +75,25 @@ public class VinInfoAdapter extends RecyclerView.Adapter<VinInfoAdapter.VinInfoH
 
     @Override
     public void onBindViewHolder(@NonNull VinInfoHolder holder, int position) {
+        // Get the current VIN entry
         VinInfo currentVinInfo = vinInfos.get(position);
+
+        // Display sequential count (1-based index)
         holder.textViewVinCount.setText(String.valueOf(position + 1));
+
+        // Display sequential count (1-based index)
         holder.textViewVinNumber.setText(currentVinInfo.getVinNumber());
 
 
-        // Set row letter, display "-" if it's null
+        // Display row letter, defaulting to "-" if null
         String rowLetter = currentVinInfo.getRowLetter();
         holder.textViewLotLocation.setText(rowLetter != null ? rowLetter : "-");
 
-        // Set space number, display "-" if it's null or 0
+        // Display space number, prefixed with "#" if valid, otherwise "-"
         String spaceNumber = currentVinInfo.getSpaceNumber();
         holder.textViewSpaceNumber.setText(spaceNumber != null && !spaceNumber.equals("-") ? "#" + spaceNumber : "-");
 
-        // Set extra notes, display "-" if it's null or empty
+        // Display extra notes if available, otherwise empty
         String extraNotes = currentVinInfo.getExtraNotes();
         holder.textViewExtraNotes.setText(extraNotes != null && !extraNotes.trim().isEmpty() ? extraNotes : "");
     }
@@ -71,15 +103,29 @@ public class VinInfoAdapter extends RecyclerView.Adapter<VinInfoAdapter.VinInfoH
         return vinInfos.size();
     }
 
+    /**
+     * Updates the adapter with a new list of VIN entries.
+     *
+     * @param vinInfos List of {@link VinInfo} objects to display.
+     */
     public void setVinInfos(List<VinInfo> vinInfos) {
         this.vinInfos = vinInfos;
         notifyDataSetChanged();
     }
 
+    /**
+     * Returns the current list of VIN entries.
+     */
     public List<VinInfo> getVinInfos() {
         return vinInfos;
     }
 
+
+    /**
+     * Deletes a VIN entry at a given position and notifies the listener.
+     *
+     * @param position The adapter position of the VIN to remove.
+     */
     public void deleteVinInfo(int position) {
         VinInfo vinInfo = vinInfos.get(position);
         vinInfos.remove(position);
@@ -89,11 +135,16 @@ public class VinInfoAdapter extends RecyclerView.Adapter<VinInfoAdapter.VinInfoH
         }
     }
 
-
+    /**
+     * Returns the adapter's context (useful for activities and intents).
+     */
     public Context getContext() {
         return context;
     }
 
+    /**
+     * ViewHolder class that represents each VIN item row in the RecyclerView.
+     */
     class VinInfoHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView textViewVinCount;
         private TextView textViewVinNumber;
@@ -103,12 +154,15 @@ public class VinInfoAdapter extends RecyclerView.Adapter<VinInfoAdapter.VinInfoH
 
         public VinInfoHolder(@NonNull View itemView) {
             super(itemView);
+
+            // Bind UI elements
             textViewVinCount = itemView.findViewById(R.id.id_vin_count);
             textViewVinNumber = itemView.findViewById(R.id.id_vin_number);
             textViewLotLocation = itemView.findViewById(R.id.id_lot_location);
             textViewExtraNotes = itemView.findViewById(R.id.id_extra_notes);
             textViewSpaceNumber = itemView.findViewById(R.id.id_space_num);
 
+            // Register click listener for editing
             itemView.setOnClickListener(this); // Set click listener
         }
 
@@ -117,15 +171,17 @@ public class VinInfoAdapter extends RecyclerView.Adapter<VinInfoAdapter.VinInfoH
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
                 VinInfo selectedVinInfo = vinInfos.get(position);
-                // Pass data
+
+                // Launch EditVinActivity with the selected VIN details
                 Intent intent = new Intent(context, EditVinActivity.class);
                 intent.putExtra("LIST_ID", selectedVinInfo.getListId());
                 intent.putExtra("VIN_INFO_ID", selectedVinInfo.getId());
-                ((Activity) context).startActivityForResult(intent, REQUEST_CODE_EDIT_VIN);
+
+                // Since adapter has only Context, cast to Activity for startActivityForResult
+                if (context instanceof Activity) {
+                    ((Activity) context).startActivityForResult(intent, REQUEST_CODE_EDIT_VIN);
+                }
             }
-
-
         }
     }
-
 }
