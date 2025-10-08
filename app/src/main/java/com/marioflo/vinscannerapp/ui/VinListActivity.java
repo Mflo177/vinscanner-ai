@@ -36,8 +36,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.marioflo.vinscannerapp.R;
 import com.marioflo.vinscannerapp.ui.adapter.SwipeToDeleteCallback;
 import com.marioflo.vinscannerapp.ui.adapter.VinInfoAdapter;
-import com.marioflo.vinscannerapp.entities.VinInfo;
-import com.marioflo.vinscannerapp.entities.VinList;
+import com.marioflo.vinscannerapp.data.entities.VinInfo;
+import com.marioflo.vinscannerapp.data.entities.VinList;
 import com.marioflo.vinscannerapp.viewmodel.VinViewModel;
 
 import org.apache.poi.ss.usermodel.Cell;

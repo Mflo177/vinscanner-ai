@@ -7,9 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.marioflo.vinscannerapp.entities.VinInfo;
-import com.marioflo.vinscannerapp.entities.VinList;
-import com.marioflo.vinscannerapp.repository.VinRepository;
+import com.marioflo.vinscannerapp.data.entities.VinInfo;
+import com.marioflo.vinscannerapp.data.entities.VinList;
+import com.marioflo.vinscannerapp.data.repository.VinRepository;
 
 import java.util.List;
 

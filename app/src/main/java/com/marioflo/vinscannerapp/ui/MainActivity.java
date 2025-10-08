@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.marioflo.vinscannerapp.R;
-import com.marioflo.vinscannerapp.entities.VinList;
+import com.marioflo.vinscannerapp.data.entities.VinList;
 import com.marioflo.vinscannerapp.viewmodel.VinViewModel;
 
 

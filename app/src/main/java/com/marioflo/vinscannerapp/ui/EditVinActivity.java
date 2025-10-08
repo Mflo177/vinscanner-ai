@@ -19,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.marioflo.vinscannerapp.R;
-import com.marioflo.vinscannerapp.entities.VinInfo;
+import com.marioflo.vinscannerapp.data.entities.VinInfo;
 import com.marioflo.vinscannerapp.viewmodel.VinViewModel;
 
 

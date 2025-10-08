@@ -7,7 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.marioflo.vinscannerapp.entities.VinInfo;
+import com.marioflo.vinscannerapp.data.entities.VinInfo;
 
 import java.util.List;
 

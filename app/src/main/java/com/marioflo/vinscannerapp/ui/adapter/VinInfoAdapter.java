@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.marioflo.vinscannerapp.R;
-import com.marioflo.vinscannerapp.entities.VinInfo;
+import com.marioflo.vinscannerapp.data.entities.VinInfo;
 import com.marioflo.vinscannerapp.ui.EditVinActivity;
 
 import java.util.ArrayList;

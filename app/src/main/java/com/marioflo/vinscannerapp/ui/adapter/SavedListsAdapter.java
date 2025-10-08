@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.marioflo.vinscannerapp.R;
-import com.marioflo.vinscannerapp.entities.VinList;
+import com.marioflo.vinscannerapp.data.entities.VinList;
 
 import java.util.ArrayList;
 import java.util.List;

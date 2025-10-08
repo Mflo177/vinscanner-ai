@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.marioflo.vinscannerapp.R;
 import com.marioflo.vinscannerapp.ui.adapter.SavedListsAdapter;
-import com.marioflo.vinscannerapp.entities.VinList;
+import com.marioflo.vinscannerapp.data.entities.VinList;
 import com.marioflo.vinscannerapp.viewmodel.VinViewModel;
 
 import java.util.List;
