@@ -1,26 +1,44 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+    CameraActivity Layout :
+
+    Provides the live camera preview with an overlay for VIN scanning
+    and a capture button to trigger image processing.
+-->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.CameraActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.CameraActivity">
 
+    <!--
+        FrameLayout acts as the camera preview container.
+        It holds the live camera feed, overlay graphics, and capture button layered together.
+    -->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
+        <!-- CameraX PreviewView: displays the live camera feed -->
         <androidx.camera.view.PreviewView
             android:id="@+id/previewView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <!--
+            Transparent overlay used to guide the user
+            for proper VIN positioning and scanning alignment.
+        -->
         <include
             android:id="@+id/camera_overlay"
             layout="@layout/camera_overlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <!-- Capture button positioned near the bottom center -->
         <Button
             android:id="@+id/captureButton"
             android:layout_width="wrap_content"
@@ -28,9 +46,6 @@
             android:layout_gravity="center|bottom"
             android:layout_marginBottom="100dp"
             android:text="Capture" />
-
     </FrameLayout>
-
-
 
 </LinearLayout>
