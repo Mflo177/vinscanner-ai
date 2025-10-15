@@ -1,10 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  VIN Scanner App
+  Layout: view_camera_overlay.xml
+
+  Description:
+  This layout creates a transparent overlay used on top of the camera
+  preview during VIN scanning. The purpose is to visually guide the
+  user to position the VIN number within the highlighted focus area.
+
+  Structure:
+  - Top and bottom dimmed overlays (semi-transparent black)
+  - Center "focus rectangle" with white corner brackets
+  - Clean framing ensures user focus and contrast for OCR/scanner visibility
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@android:color/transparent">
 
+    <!-- ========================================================= -->
+    <!-- Top overlay: Dims the upper area of the camera preview    -->
+    <!-- ========================================================= -->
+    <!--
+         - Uses a semi-transparent black (#D0000000)
+           to direct user attention to the focus rectangle.
+         - Weight-based height balances top and bottom overlays
+           dynamically with screen size.
+    -->
     <View
         android:id="@+id/id_top_overlay"
         android:layout_width="match_parent"
@@ -12,8 +36,14 @@
         android:layout_weight="1"
         android:background="#D0000000" />
 
-    <!-- Focus rectangle with brackets -->
-
+    <!-- ========================================================= -->
+    <!-- Focus rectangle (center area for VIN detection)           -->
+    <!-- ========================================================= -->
+    <!--
+         - Transparent region allowing camera feed to remain visible.
+         - Surrounded by visible corner brackets for easy alignment.
+         - The FrameLayout allows precise placement of bracket corners.
+    -->
     <FrameLayout
         android:id="@+id/id_focus_rect"
         android:layout_width="match_parent"
@@ -24,7 +54,9 @@
         android:paddingTop="20dp"
         android:paddingBottom="20dp">
 
-        <!-- Top-left bracket -->
+        <!-- ===================================================== -->
+        <!-- Top-left corner bracket                               -->
+        <!-- ===================================================== -->
         <View
             android:id="@+id/id_top_left_bracket"
             android:layout_width="40dp"
@@ -39,7 +71,9 @@
             android:layout_gravity="top|start"
             android:background="@android:color/white" />
 
-        <!-- Top-right bracket -->
+        <!-- ===================================================== -->
+        <!-- Top-right corner bracket                              -->
+        <!-- ===================================================== -->
         <View
             android:id="@+id/id_top_right_bracket"
             android:layout_width="40dp"
@@ -54,7 +88,9 @@
             android:layout_gravity="top|end"
             android:background="@android:color/white" />
 
-        <!-- Bottom-left bracket -->
+        <!-- ===================================================== -->
+        <!-- Bottom-left corner bracket                            -->
+        <!-- ===================================================== -->
         <View
             android:id="@+id/id_bottom_left_bracket"
             android:layout_width="40dp"
@@ -69,7 +105,9 @@
             android:layout_gravity="bottom|start"
             android:background="@android:color/white" />
 
-        <!-- Bottom-right bracket -->
+        <!-- ===================================================== -->
+        <!-- Bottom-right corner bracket                           -->
+        <!-- ===================================================== -->
         <View
             android:id="@+id/id_bottom_right_bracket"
             android:layout_width="40dp"
@@ -85,7 +123,13 @@
             android:background="@android:color/white" />
 
     </FrameLayout>
-
+    <!-- ========================================================= -->
+    <!-- Bottom overlay: Dims the lower area of the camera preview -->
+    <!-- ========================================================= -->
+    <!--
+         - Matches the top overlay to maintain a clear window
+           in the center for VIN focus.
+    -->
     <View
         android:id="@+id/id_bottom_overlay"
         android:layout_width="match_parent"

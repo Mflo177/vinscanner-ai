@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  VinScanner App
+  Layout: activity_saved_lists.xml
+
+  Description:
+  This layout defines the UI for displaying all previously saved VIN lists.
+  Users can view, select, or manage existing VIN list entries via a RecyclerView.
+
+  Design Highlights:
+  - Consistent top toolbar for navigation and branding
+  - RecyclerView provides a scrollable list of saved VIN files or records
+  - ConstraintLayout ensures responsive design on various screen sizes
+  - Padding and margins provide clean spacing and readability
+-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,8 +21,14 @@
     android:layout_height="match_parent"
     tools:context=".ui.SavedListsActivity">
 
-    <!-- Toolbar -->
-    <androidx.appcompat.widget.Toolbar
+    <!-- ========================================================= -->
+    <!-- Toolbar: App bar displaying title and navigation options  -->
+    <!-- ========================================================= -->
+    <!--
+         - Uses primary theme color for consistency across screens
+         - Supports popup menus or back navigation as needed
+         - Compatible with AppCompat for modern UI appearance
+    -->    <androidx.appcompat.widget.Toolbar
         android:id="@+id/id_toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -19,6 +40,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         />
 
+    <!-- ========================================================= -->
+    <!-- RecyclerView: Displays list of saved VIN entries          -->
+    <!-- ========================================================= -->
+    <!--
+         - Each list item can represent a VIN list (name, date, size)
+         - Supports item click handling for opening, editing, or deleting
+         - Uses ConstraintLayout constraints for full height coverage
+         - Margin adds comfortable padding from screen edges
+    -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/id_rv_saved_lists"
         android:layout_width="0dp"

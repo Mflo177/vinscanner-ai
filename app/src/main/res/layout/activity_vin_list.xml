@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  VinScanner App
+  Layout: activity_vin_list.xml
+
+  Description:
+  This layout defines the screen for displaying all VIN entries
+  within a specific VIN list. Each entry may include information such
+  as VIN number, lot location, and additional notes.
+
+  Design Highlights:
+  - Toolbar provides app navigation and contextual actions
+  - RecyclerView displays the scrollable list of VIN entries
+  - Clean and responsive ConstraintLayout design
+  - Consistent margins and color theming following Material Design
+-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,6 +22,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.VinListActivity">
 
+
+    <!-- ========================================================= -->
+    <!-- Toolbar: App bar for navigation and actions               -->
+    <!-- ========================================================= -->
+    <!--
+         - Uses app theme’s primary color for visual consistency
+         - Hosts menu items such as “Share List”, “Edit”, and “Delete”
+         - Provides title text and optional back navigation icon
+         - popupTheme ensures proper styling of overflow menus
+    -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/id_toolbar"
         android:layout_width="0dp"
@@ -18,6 +44,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:titleTextColor="@android:color/white"/>
 
+
+    <!-- ========================================================= -->
+    <!-- RecyclerView: Displays VIN entries in the selected list   -->
+    <!-- ========================================================= -->
+    <!--
+         - Each row may include the VIN number, location, and notes
+         - Supports swipe gestures for delete or edit actions
+         - Adapter-driven for dynamic list population
+         - Uniform margins for clean and modern spacing
+    -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/id_recycler_view"
         android:layout_width="0dp"

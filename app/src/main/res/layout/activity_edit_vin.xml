@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  VinScanner App
+  Layout: EditVinActivity.xml
+
+  Description:
+  Activity layout that allows the user to view and edit
+  details for a scanned VIN entry.
+
+  UI Components:
+  - Toolbar for navigation and contextual actions
+  - VIN number display (non-editable)
+  - Spinners for selecting lot row and space number
+  - Notes field for additional vehicle details
+  - Action buttons (Cancel / Update) for data operations
+
+  Design:
+  - Built with ConstraintLayout for responsive alignment
+  - Material Design–consistent spacing and typography
+  - Uses sans-serif-medium font family for readability
+-->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,7 +27,9 @@
     android:layout_height="match_parent"
     tools:context=".ui.EditVinActivity">
 
-    <!-- Toolbar -->
+    <!-- ========================================================= -->
+    <!-- Toolbar: Primary app bar for navigation and title context -->
+    <!-- ========================================================= -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/id_toolbar2"
         android:layout_width="0dp"
@@ -19,7 +41,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- VIN Number -->
+    <!-- ========================================================= -->
+    <!-- VIN Number Section: Displays detected VIN string          -->
+    <!-- ========================================================= -->
     <TextView
         android:id="@+id/id_vin_number_text"
         android:layout_width="wrap_content"
@@ -42,7 +66,9 @@
         app:layout_constraintStart_toEndOf="@+id/id_vin_number_text"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Lot Location Spinner -->
+    <!-- ========================================================= -->
+    <!-- Lot Location Section: Spinner for selecting vehicle row   -->
+    <!-- ========================================================= -->
     <TextView
         android:id="@+id/id_lot_location_label"
         android:layout_width="wrap_content"
@@ -62,7 +88,9 @@
         app:layout_constraintTop_toTopOf="@+id/id_lot_location_label"
         app:layout_constraintStart_toEndOf="@+id/id_lot_location_label" />
 
-    <!-- Space Number Spinner -->
+    <!-- ========================================================= -->
+    <!-- Space Number Section: Spinner for specific space number   -->
+    <!-- ========================================================= -->
     <TextView
         android:id="@+id/id_space_number_label"
         android:layout_width="wrap_content"
@@ -82,7 +110,9 @@
         app:layout_constraintTop_toTopOf="@+id/id_space_number_label"
         app:layout_constraintStart_toEndOf="@+id/id_space_number_label" />
 
-    <!-- Notes Field -->
+    <!-- ========================================================= -->
+    <!-- Notes Section: Editable text field for additional info    -->
+    <!-- ========================================================= -->
     <TextView
         android:id="@+id/id_notes_label"
         android:layout_width="wrap_content"
@@ -105,7 +135,9 @@
         app:layout_constraintStart_toEndOf="@+id/id_notes_label"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Buttons (Cancel and Update) -->
+    <!-- ========================================================= -->
+    <!-- Action Buttons: Cancel (dismiss) and Update (save changes) -->
+    <!-- ========================================================= -->
     <Button
         android:id="@+id/id_cancel_button"
         android:layout_width="wrap_content"

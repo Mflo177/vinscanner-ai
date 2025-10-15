@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  VinScanner App
+  Layout: activity_main.xml
+
+  Description:
+  This layout defines the main entry screen for the VinScanner app.
+  It provides users with quick access to:
+    - Creating a new VIN list (launches scanner or form)
+    - Viewing previously saved VIN lists
+
+  Design Highlights:
+  - Centered vertical alignment for minimal, intuitive design
+  - ConstraintLayout ensures responsive sizing across screen sizes
+  - Consistent typography using sans-serif-medium for professional appearance
+  - Clear visual hierarchy: title > primary action > secondary action
+-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,6 +23,9 @@
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
 
+    <!-- ========================================================= -->
+    <!-- App Title: Displays the main heading of the application   -->
+    <!-- ========================================================= -->
     <TextView
         android:id="@+id/tv_welcome"
         android:layout_width="wrap_content"
@@ -21,6 +41,9 @@
         android:layout_marginBottom="16dp"
         android:gravity="center"/>
 
+    <!-- ========================================================= -->
+    <!-- Primary Action Button: Creates a new VIN list             -->
+    <!-- ========================================================= -->
     <Button
         android:id="@+id/btn_create_new_vin_list"
         android:layout_width="wrap_content"
@@ -34,6 +57,9 @@
         android:layout_marginTop="100dp"
         android:layout_marginBottom="16dp"/>
 
+    <!-- ========================================================= -->
+    <!-- Secondary Action Button: Navigates to saved VIN lists     -->
+    <!-- ========================================================= -->
     <Button
         android:id="@+id/btn_view_saved_lists"
         android:layout_width="wrap_content"
