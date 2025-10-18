@@ -1,10 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    ============================================
+    Create New VIN List Dialog Layout:
+
+    Purpose:
+    A clean, minimal dialog layout allowing the user to create a new VIN list
+    by entering a name and confirming or cancelling the operation.
+
+    AI/ML Perspective:
+    - "List Name" acts as a dataset identifier — analogous to naming a model version
+      or experiment ID in an ML workflow.
+    - "Create" and "Cancel" map to actions.
+
+    ============================================
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- ===========================
+         Input Field for List Name
+         Purpose: Collect a unique identifier for a new VIN list.
+         ML Analogy: Equivalent to naming a new dataset, model checkpoint,
+         or experiment for reproducibility.
+    ============================ -->
     <EditText
         android:id="@+id/id_enter_listName"
         android:layout_width="match_parent"
@@ -12,6 +34,13 @@
         android:hint="Enter list name"
         android:inputType="text"/>
 
+    <!-- ===========================
+       Action Buttons Row
+       Purpose: Provides user controls for form submission or cancellation.
+       ML Analogy:
+       - "Create" → save new dataset entry / confirm data ingestion.
+       - "Cancel" → abort the operation / data validation rollback.
+  ============================ -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,16 +48,19 @@
         android:layout_marginTop="16dp"
         android:gravity="center">
 
+        <!-- Cancel button: allows the user to exit without saving -->
         <Button
             android:id="@+id/id_btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancel" />
 
+        <!-- Spacer: ensures visual space between the two buttons -->
         <Space
             android:layout_width="32dp"
             android:layout_height="wrap_content" />
 
+        <!-- Create button: confirms list creation and triggers logic to save data -->
         <Button
             android:id="@+id/id_btn_create"
             android:layout_width="wrap_content"

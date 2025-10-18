@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    ============================================
+    VIN Entry Form Layout
+
+    Purpose: This layout provides a structured input form for adding a VIN,
+    selecting its location (Row and Space), and adding optional notes.
+
+    AI/ML Perspective:
+    - VIN: raw input data acquisition
+    - Row & Space: categorical/numerical feature encoding for storage or ML pipelines
+    - Notes: metadata / annotation for data enrichment
+    - Add/Cancel Buttons: trigger actions analogous to committing or discarding data points
+
+    Designed to demonstrate clean UI + ML-friendly data flow.
+    ============================================
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -6,7 +23,11 @@
     android:padding="16dp"
     android:gravity="center_horizontal">
 
-    <!-- VIN Display -->
+
+    <!-- ===========================
+         VIN Display Section
+         Shows the detected VIN number.
+    ============================ -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,6 +35,7 @@
         android:gravity="center_vertical"
         android:layout_marginBottom="16dp">
 
+        <!-- Label for VIN -->
         <TextView
             android:id="@+id/id_vin_number_text"
             android:layout_width="wrap_content"
@@ -22,6 +44,7 @@
             android:textSize="18sp"
             android:layout_marginEnd="8dp"/>
 
+        <!-- Displays actual VIN value dynamically -->
         <TextView
             android:id="@+id/id_vin_number"
             android:layout_width="0dp"
@@ -31,7 +54,12 @@
              />
     </LinearLayout>
 
-    <!-- Row Letter Spinner -->
+
+    <!-- ===========================
+         Row Letter Spinner
+         Maps VIN to a specific row/location.
+         Analogy: Dataset labeling or categorical feature assignment.
+    ============================ -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,6 +67,7 @@
         android:gravity="center_vertical"
         android:layout_marginBottom="16dp">
 
+        <!-- Label for row selection -->
         <TextView
             android:id="@+id/id_row_letter_label"
             android:layout_width="wrap_content"
@@ -47,6 +76,7 @@
             android:textSize="18sp"
             android:layout_marginEnd="8dp"/>
 
+        <!-- Dropdown to select row (categorical feature) -->
         <Spinner
             android:id="@+id/id_row_letter_spinner"
             android:layout_width="0dp"
@@ -56,7 +86,11 @@
             />
     </LinearLayout>
 
-    <!-- Space Number Spinner -->
+    <!-- ===========================
+         Space Number Spinner
+         Assigns VIN to a specific space.
+         Analogy: Indexing or positional encoding in data structures.
+    ============================ -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -64,6 +98,7 @@
         android:gravity="center_vertical"
         android:layout_marginBottom="16dp">
 
+        <!-- Label for space selection -->
         <TextView
             android:id="@+id/id_space_number_label"
             android:layout_width="wrap_content"
@@ -72,6 +107,7 @@
             android:textSize="18sp"
             android:layout_marginEnd="8dp"/>
 
+        <!-- Dropdown to select space (numeric feature) -->
         <Spinner
             android:id="@+id/id_space_number_spinner"
             android:layout_width="0dp"
@@ -81,7 +117,11 @@
             />
     </LinearLayout>
 
-    <!-- Notes Field -->
+    <!-- ===========================
+         Notes Input Field
+         Allows adding metadata or annotations to VINs.
+         Analogy: Feature engineering / data enrichment.
+    ============================ -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -89,6 +129,7 @@
         android:gravity="center_vertical"
         android:layout_marginBottom="16dp">
 
+        <!-- Label for notes -->
         <TextView
             android:id="@+id/id_notes_label"
             android:layout_width="wrap_content"
@@ -97,6 +138,7 @@
             android:textSize="18sp"
             android:layout_marginEnd="8dp"/>
 
+        <!-- Editable field for notes -->
         <EditText
             android:id="@+id/id_notes_edit_text"
             android:layout_width="0dp"
@@ -105,23 +147,31 @@
             android:hint="Enter notes here" />
     </LinearLayout>
 
-    <!-- Buttons (Add and Cancel) -->
+    <!-- ===========================
+         Action Buttons
+         Mimics pipeline triggers:
+         - Add: Commit data to dataset (structured storage)
+         - Cancel: Discard input (data filtering / cleaning step)
+    ============================ -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center">
 
+        <!-- Cancel button -->
         <Button
             android:id="@+id/id_cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancel" />
 
+        <!-- Spacer between buttons for UI clarity -->
         <Space
             android:layout_width="32dp"
             android:layout_height="wrap_content" />
 
+        <!-- Add button -->
         <Button
             android:id="@+id/id_add_button"
             android:layout_width="wrap_content"

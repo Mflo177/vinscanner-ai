@@ -1,12 +1,34 @@
 <!-- dialog_edit_list_name.xml -->
+
+<!--
+    ============================================
+    Edit List Name Dialog Layout:
+
+    Purpose:
+    This layout defines a simple dialog for renaming an existing VIN list.
+    It provides a text input field and two actions — Save or Cancel.
+
+    Design Intent:
+    - Keeps focus on the single editing action.
+    - Compact and minimal layout optimized for dialogs.
+    - Consistent padding and spacing for clean user interaction.
+    ============================================
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Other views -->
+    <!-- ============================================
+         Text Input Field:
 
+         Purpose:
+         Allows user to edit the name of an existing list.
+         UX Details:
+         - Full width for comfortable typing.
+         - Uses text input type for generic string input.
+         ============================================ -->
     <EditText
         android:id="@+id/id_edit_list_name"
         android:layout_width="match_parent"
@@ -14,6 +36,16 @@
         android:hint="Enter list name"
         android:inputType="text"/>
 
+
+    <!-- ============================================
+     Action Buttons Row:
+
+     Purpose:
+     Provides user controls for saving or discarding changes.
+     Layout:
+     - Horizontal alignment.
+     - Centered within dialog for symmetry.
+     ============================================ -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,12 +53,17 @@
         android:layout_marginTop="16dp"
         android:gravity="center">
 
+        <!-- Cancel Button:
+            Closes dialog without applying any changes. -->
         <Button
             android:id="@+id/id_btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancel" />
 
+        <!-- Save Button:
+     Commits the edited name and updates associated data.
+     marginStart provides visual separation from Cancel button. -->
         <Button
             android:id="@+id/id_btn_save"
             android:layout_width="wrap_content"
