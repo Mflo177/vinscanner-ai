@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    ==========================================================
+    list_item_vin.xml :
+
+    Purpose:
+    Defines a card-style layout representing a single VIN entry
+    within a RecyclerView list.
+
+    Design Intent:
+    - Visually separates VIN items with padding.
+    - Provides structured display of metadata
+      (VIN ID, number, lot location, notes, and space number).
+    ==========================================================
+-->
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -6,17 +21,29 @@
     android:layout_margin="4dp"
     android:elevation="4dp">
 
+    <!-- ============================================
+     Main Container
+     ============================================ -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- ============================================
+     Row 1: Primary VIN Details
+
+     Displays:
+     - ID count label (left-aligned)
+     - VIN Number (center-left, emphasized)
+     - Lot location (right-aligned)
+     ============================================ -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+            <!-- VIN ID Counter (e.g., sequential record index) -->
             <TextView
                 android:id="@+id/id_vin_count"
                 android:layout_width="0dp"
@@ -28,6 +55,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:textSize="16sp" />
 
+            <!-- VIN Number Display -->
             <TextView
                 android:id="@+id/id_vin_number"
                 android:layout_width="0dp"
@@ -38,6 +66,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="left" />
 
+            <!-- Vehicle Lot Location -->
             <TextView
                 android:id="@+id/id_lot_location"
                 android:layout_width="0dp"
@@ -49,12 +78,21 @@
                 android:fontFamily="sans-serif-medium"/>
         </LinearLayout>
 
+        <!-- ============================================
+          Row 2: Additional Metadata
+
+          Displays:
+          - Notes label
+          - Notes text content (left)
+          - Space number (right)
+          ============================================ -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingTop="8dp">
 
+            <!-- Notes Label -->
             <TextView
                 android:id="@+id/id_notes_label"
                 android:layout_width="wrap_content"
@@ -64,6 +102,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center" />
 
+            <!-- User-Provided Notes Content -->
             <TextView
                 android:id="@+id/id_extra_notes"
                 android:layout_width="0dp"
@@ -75,6 +114,7 @@
                 android:textSize="14sp"
                 android:gravity="left" />
 
+            <!-- Space Number -->
             <TextView
                 android:id="@+id/id_space_num"
                 android:layout_width="0dp"
@@ -85,9 +125,6 @@
                 android:fontFamily="sans-serif-medium"
                 android:textSize="14sp"
                 android:gravity="right" />
-
-
         </LinearLayout>
     </LinearLayout>
-
 </androidx.cardview.widget.CardView>

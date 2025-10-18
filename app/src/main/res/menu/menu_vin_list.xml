@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    ==========================================================
+    menu_vin_list.xml
+
+    Purpose:
+    Defines the action menu items used in the VIN List screen.
+
+    Design Intent:
+    - Provides quick-access tools for scanning VINs and managing lists.
+    - Keeps the primary action (Scan) visible at all times.
+    - Groups secondary actions (Edit, Share, Delete) in the overflow menu.
+
+    Developer Notes:
+    - To be inflated in the Toolbar within VinListActivity.
+    - Menu item click actions handled in onOptionsItemSelected().
+    ==========================================================
+-->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!-- ==========================================================
+     Primary Action: Scan Icon
+     Displays an always-visible icon in the Toolbar for quick
+     VIN scanning functionality.
+     ========================================================== -->
     <item
         android:id="@+id/id_scanIcon"
         android:icon="@drawable/scan_icon"
@@ -9,19 +31,30 @@
         app:showAsAction="always"
        />
 
-
+    <!-- ==========================================================
+     Secondary Action 1: Edit List Name
+     Appears in the overflow menu.
+     ========================================================== -->
     <item android:id="@+id/id_edit_listName"
         android:title="Edit List Name"
         app:showAsAction="never">
         android:orderInCategory="1"
     </item>
 
+    <!-- ==========================================================
+     Secondary Action 2: Share List
+     Allows users to export or share the VIN list.
+     ========================================================== -->
     <item android:id="@+id/id_share_list"
         android:title="Share List"
         app:showAsAction="never"
         android:orderInCategory="2">
     </item>
 
+    <!-- ==========================================================
+     Secondary Action 3: Delete List
+     Provides an option to delete the entire VIN list.
+     ========================================================== -->
     <item
         android:id="@+id/id_deleteList"
         android:title="Delete List"

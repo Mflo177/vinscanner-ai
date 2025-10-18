@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    ==========================================================
+    list_item_saved_list.xml :
+
+    Purpose:
+    Defines a single card item used to display a saved list name
+    inside a RecyclerView.
+    ==========================================================
+-->
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,12 +17,24 @@
     android:layout_margin="4dp"
     android:elevation="4dp">
 
+    <!-- ============================================
+      Container Layout
+
+      Purpose:
+      Holds text and optional elements (e.g., icons).
+      ============================================ -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- ============================================
+          List Name Text
+
+          Purpose:
+          Displays the name of the saved list in bold, readable text.
+          ============================================ -->
         <TextView
             android:id="@+id/id_text_listName"
             android:layout_width="wrap_content"
@@ -20,16 +42,6 @@
             android:text="List Name"
             android:textSize="18sp"
             android:fontFamily="sans-serif-medium" />
-
-<!--        <TextView-->
-<!--            android:id="@+id/id_text_listDescription"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="4dp"-->
-<!--            android:text="Description (optional)"-->
-<!--            android:textSize="14sp"-->
-<!--            android:textColor="@color/gray"-->
-<!--            android:fontFamily="sans-serif" />-->
 
     </LinearLayout>
 
