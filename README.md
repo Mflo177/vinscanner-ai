@@ -1,6 +1,6 @@
 # 🚗 VinScanner AI App 
 
-VinScanner AI is an intelligent mobile application that applies **computer vision** and **machine learning** principles to take raw data(images), extract meaning(VINs), and organize data(VIN data) for Excel file output.  
+VinScanner AI is an intelligent mobile application that applies **computer vision** and **machine learning** principles to take raw data images, extract VINs, and organize VIN data for Excel file output.  
 It combines **Google ML Kit’s on-device OCR** with a structured **data export pipeline**, reflecting an end-to-end AI workflow — from **data acquisition → processing → structured output**. 
 
 ---
