@@ -30,3 +30,5 @@ It combines **Google ML Kit’s on-device OCR** with a structured **data export 
 
 ---
 
+## 🎥 Demo Video
+[![Watch the video](https://img.youtube.com/vi/q8jsdynda60/0.jpg)](https://youtu.be/q8jsdynda60)
