@@ -15,6 +15,14 @@ It combines **Google ML Kit’s on-device OCR** with a structured **data export 
 
 ---
 
+🤖 AI/ML FEATURES:
+- Real-time text recognition from camera feed
+- Multi-format barcode and QR code detection
+- Image preprocessing and optimization
+- Confidence scoring for detection accuracy
+  
+---
+
 ## 🧰 Tech Stack
 
 ### 🧬 AI / Data Processing
