@@ -10,8 +10,7 @@ It combines **Google ML Kit’s on-device OCR** with a structured **data export 
 - 🔍 **AI-Powered VIN Recognition** – Leverages ML Kit’s OCR to detect and extract VINs accurately.  
 - ⚙️ **Real-Time Processing** – Camera overlay with a visual focus rectangle guides scanning precision.  
 - 📁 **Dynamic Data Handling** – Automatically organizes scanned VINs into editable lists.  
-- 📊 **Excel/CSV Export Pipeline** – Converts structured lists into `.xlsx` format (Apache POI), similar to `pandas.DataFrame.to_excel()` in Python.  
-- 📬 **Automated List Sharing** – Sends structured dataset lists via Excel files through email. 
+- 📊 **Excel/CSV File Export Sharing** – Converts structured dataset lists into excel file format`.xlsx` for exporting via email.
 - 💡 **Offline AI Model** – Uses on-device inference (no cloud required).  
 
 ---
