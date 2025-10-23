@@ -7,7 +7,7 @@ It combines **Google ML Kit’s on-device OCR** with a structured **data export 
 
 ## 🧩 Core Features
 
-- 🔍 **AI-Powered VIN Recognition** – Real-time text recognition from camera feed to extract VINs accurately. (Multi-format barcode and QR code detection) 
+- 🔍 **AI-Powered VIN Recognition** – Real-time text recognition from camera feed to extract VIN data. (QR and barcode detection) 
 - ⚙️ **Real-Time Processing** – Camera overlay with a visual focus rectangle guides scanning precision.  
 - 📁 **Dynamic Data Handling** – Automatically organizes scanned VINs into editable lists.  
 - 📊 **Excel/CSV File Export Sharing** – Converts structured dataset lists into excel file format`.xlsx` for exporting via email.
