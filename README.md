@@ -25,7 +25,6 @@ It combines **Google ML Kit’s on-device OCR** with a structured **data export 
 - **Android Studio (Java)** – App framework  
 - **ConstraintLayout, RecyclerView, Toolbar** – UI/UX layer  
 - **Gradle** – Build automation  
-- **Material Design** – Modern interface  
 
 ---
 
