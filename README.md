@@ -33,7 +33,7 @@ Use Cases:
 - Reduce manual data entry errors
 
 ## Screenshots
-![Scan Screen](screenshots/1scan_vin_barcode.jpg) ![Insert Vin Data](screenshots/insert_vin_data.jpg)![Succesfully Added Vin](screenshots/succesfully_added_vin.jpg)![Vin List](screenshots/drop_menu.jpg)
+![Scan Screen](screenshots/1scan_vin_barcode.jpg) ![Insert Vin Data](screenshots/insert_vin_data.jpg)![Vin List](screenshots/drop_menu.jpg)
 
 ## 🎥 Demo Video
 [![Watch the video](https://img.youtube.com/vi/q8jsdynda60/0.jpg)](https://youtu.be/q8jsdynda60)
