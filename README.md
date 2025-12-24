@@ -1,32 +1,36 @@
-# 🚗 VinScanner AI App 
+VinScanner AI
 
-VinScanner AI is an intelligent mobile application that applies **computer vision** and **machine learning** principles to take raw data images, extract VINs, and organize VIN data for Excel file output.  
-It combines **Google ML Kit’s on-device OCR** with a structured **data export pipeline**, reflecting an end-to-end AI workflow — from **data acquisition → processing → structured output**. 
+An intelligent application that streamlines automotive inventory management through real-time VIN detection and automated data collection.
 
----
+Overview:
+VIN Scanner AI uses computer vision and Google ML Kit's OCR to automatically detect and extract VIN numbers from vehicle windshields using 
+your device's camera. The app allows users to build comprehensive vehicle lists with custom notes, location data, and repair status—all 
+exportable as CSV files for seamless sharing via email.
 
-## 🧩 Core Features
+Built for: 
+Automotive inventory management, repair shops, and dealership operations
 
-- 🔍 **AI-Powered VIN Recognition** – Leverages ML Kits OCR for text recognition from camera feed. (QR and barcode detection) 
-- ⚙️ **Real-Time Processing** – Camera scanning and image preprocessing for VIN extraction. 
-- 📁 **Dynamic Data Handling** – Automatically organizes scanned VINs into editable lists.  
-- 📊 **Excel/CSV File Export Sharing** – Converts structured dataset lists into excel file format`.xlsx` for exporting via email.
-- 💡 **Offline AI Model** – Uses on-device inference (no cloud required).  
-  
----
+Key Features:
+- Real-Time VIN Detection: Scan VINs and VIN-barcodes directly from windshields using ML Kit OCR
+- Custom Data Entry: Add notes, location information, and repair status to each VIN
+- Editable Lists: Manage and organize scanned VINs with full editing capabilities
+- CSV Export: Generate shareable spreadsheets with all collected data
+- Email Integration: Attach CSV files directly to your device's email app
+- Offline Capable: Works without internet connection for on-site inventory collection
 
-## 🧰 Tech Stack
+Tech Stack:
+- Language: Java
+- Platform: Android
+- ML/AI: Google ML Kit (Text Recognition)
+- Architecture: MVVM pattern
+- Data Export: Apache Commons CSV
 
-### 🧬 AI / Data Processing
-- **Google ML Kit (Text Recognition API)** – OCR inference  
-- **Apache POI** – Excel export pipeline (mimicking pandas workflows)
-
-### 💻 Software Engineering
-- **Android Studio (Java)** – App framework  
-- **ConstraintLayout, RecyclerView, Toolbar** – UI/UX layer  
-- **Gradle** – Build automation  
-
----
+Use Cases:
+- Quickly inventory vehicles on a lot
+- Track repair progress with notes and status updates
+- Document vehicle locations for large facilities
+- Export organized data for spreadsheet analysis
+- Reduce manual data entry errors
 
 ## 🎥 Demo Video
 [![Watch the video](https://img.youtube.com/vi/q8jsdynda60/0.jpg)](https://youtu.be/q8jsdynda60)
