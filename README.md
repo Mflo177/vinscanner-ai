@@ -34,3 +34,6 @@ Use Cases:
 
 ## 🎥 Demo Video
 [![Watch the video](https://img.youtube.com/vi/q8jsdynda60/0.jpg)](https://youtu.be/q8jsdynda60)
+
+## Screenshots
+![Scan Screen](1scan_vin_barcode.jpg) ![VIN List](successfully_added_vin.jpg)
