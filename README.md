@@ -42,4 +42,4 @@ Mobile application demonstrating computer vision for real-time alphanumeric code
 **Mario Flores**  
 Software Engineer | Full-Stack Development | AI Integration
 
-[Portfolio](https://flocodedev.com) • [LinkedIn]((https://www.linkedin.com/in/385ab-mario-flores/)) • [GitHub](https://github.com/Mflo177)
+[Portfolio](https://flocodedev.com) • [LinkedIn](https://www.linkedin.com/in/385ab-mario-flores/) • [GitHub](https://github.com/Mflo177)
